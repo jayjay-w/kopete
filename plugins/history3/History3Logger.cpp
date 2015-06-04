@@ -10,6 +10,8 @@
 //Kopete includes
 #include "kopetemessage.h"
 #include "kopetecontact.h"
+#include "kopeteprotocol.h"
+#include "kopeteaccount.h"
 
 History3Logger* History3Logger::m_instance = 0;
 
@@ -114,5 +116,48 @@ void History3Logger::appendMessage(const Kopete::Message &msg, const Kopete::Con
 
 bool History3Logger::messageExists(const Kopete::Message &msg, const Kopete::Contact *c)
 {
+    //Check if the specified message exists in the database
+    if (!msg.from())
+        return true;
 
+    const Kopete::Contact *ct = c;
+    if (!ct && msg.manager()) {
+        QList<Kopete::Contact*> mb=msg.manager()->members();
+        ct = mb.first();
+    }
+    if (!ct) {
+        ct = msg.direction()==Kopete::Message::Outbound ? msg.to.first() : msg.from();
+    }
+
+    const Kopete::Contact *local;
+    const Kopete::Contact *remote;
+
+    if (msg.direction() == msg.Inbound) {
+        local = msg.to.first();
+        remote = msg.from();
+    } else if (msg.direction() == msg.Outbound) {
+        local = msg.from();
+        remote = msg.to.first();
+    } else {
+        return true;
+    }
+
+    QSqlQuery query(history_database);
+
+    query.prepare("SELECT 1 FROM history WHERE direction = :direction AND protocol = :protocol AND account= :account AND local_id = :local_id AND remote_id = :remote_id AND date_time = :date_time AND message = :message");
+
+    query.bindValue(":direction",  msg.direction());
+    query.bindValue(":local_id", local->contactId());
+    query.bindValue(":remote_id", remote->contactId());
+    query.bindValue(":date_time", msg.timestamp());
+    query.bindValue(":protocol", c->protocol()->pluginId());
+    query.bindValue(":account", c->account()->accountId());
+    query.bindValue(":message", msg.plainBody());
+
+    query.exec();
+
+    if (query.next())
+        return true;
+
+    return false;
 }
