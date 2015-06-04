@@ -4,6 +4,7 @@
 #include <QObject>
 #include <QSqlDatabase>
 
+class QDate;
 
 namespace Kopete {
 class Message;
@@ -16,12 +17,27 @@ class MetaContact;
 class History3Logger : public QObject {
     Q_OBJECT
 public:
+    static History3Logger* instance() {
+        if (!m_instance) {
+            m_instance = new History3Logger();
+        }
+
+        return m_instance;
+    }
+
+    static void drop() {
+        delete m_instance;
+        m_instance = 0;
+    }
+
+    void appendMessage(const Kopete::Message &msg, const Kopete::Contact *c=0L);
+    bool messageExists(const Kopete::Message &msg, const Kopete::Contact *c=0L);
 
 private:
     History3Logger();
     ~History3Logger();
 
-    static History3Logger* instance;
+    static History3Logger* m_instance;
     QSqlDatabase history_database;
 };
 

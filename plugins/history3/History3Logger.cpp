@@ -2,6 +2,7 @@
 
 //Qt includes
 #include <QSqlQuery>
+#include <QDateTime>
 
 //KDE includes
 #include <kstandarddirs.h>
@@ -9,6 +10,9 @@
 //Kopete includes
 #include "kopetemessage.h"
 #include "kopetecontact.h"
+
+History3Logger* History3Logger::m_instance = 0;
+
 
 History3Logger::History3Logger()
 {
@@ -35,6 +39,7 @@ History3Logger::History3Logger()
                                   "CREATE TABLE history"
                                   "(entry_id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "
                                   "protocol TEXT, "
+                                  "direction TEXT, "
                                   "account TEXT, "
                                   "local_id TEXT, "
                                   "local_nick TEXT, "
@@ -51,4 +56,63 @@ History3Logger::History3Logger()
 History3Logger::~History3Logger()
 {
     history_database.close();
+}
+
+void History3Logger::appendMessage(const Kopete::Message &msg, const Kopete::Contact *c)
+{
+    if(!msg.from())
+            return;
+
+    // If no contact are given: If the manager is availiable, use the manager's
+    // first contact (the channel on irc, or the other contact for others protocols
+    const Kopete::Contact *c = ct;
+    if(!c && msg.manager() )
+    {
+            QList<Kopete::Contact*> mb=msg.manager()->members() ;
+            c = mb.first();
+    }
+    if(!c)  //If the contact is still not initialized, use the message author.
+            c =   msg.direction()==Kopete::Message::Outbound ? msg.to().first() : msg.from()  ;
+
+
+    if(!m_metaContact)
+    { //this may happen if the contact has been moved, and the MC deleted
+            if(c && c->metaContact())
+                    m_metaContact=c->metaContact();
+            else
+                    return;
+    }
+
+    const Kopete::Contact *me;
+    const Kopete::Contact *other;
+
+    if(msg.direction() == msg.Inbound) {
+        me = msg.to().first();
+        other = msg.from();
+    } else if (msg.direction() == msg.Outbound) {
+        me = msg.from();
+        other = msg.to.first();
+    } else {
+        return;
+    }
+
+    QSqlQuery query(history_database);
+
+    query.prepare("INSERT INTO history (direction, protocol, account, local_id, local_nick, remote_id, remote_nick, date_time, message) "
+                  "VALUES (:direction, :protocol, :account, :local_id, :local_nick, :remote_id, :remote_nick, :date_time, :message)");
+    query.bindValue(":direction", msg.direction());
+    query.bindValue(":local_id",me->contactId() );
+    query.bindValue(":local_nick", me->displayName());
+    query.bindValue(":remote_id",other->contactId() );
+    query.bindValue(":remote_nick", other->displayName());
+    query.bindValue(":date_time",msg.timestamp());
+    query.bindValue(":protocol", ct->protocol()->pluginId());
+    query.bindValue(":account", ct->account()->accountId());
+    query.bindValue(":message", msg.plainBody());
+    query.exec();
+}
+
+bool History3Logger::messageExists(const Kopete::Message &msg, const Kopete::Contact *c)
+{
+
 }
