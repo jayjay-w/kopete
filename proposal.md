@@ -140,13 +140,21 @@ The database structure will be as follows:
 
 ###### Table: history
 Columns:   
-entry_id (int, primary key)
-timestamp (text)
-protocol (text) - (the protocol in use)
-direction (text) - (either incoming or outgoing)
-local_id (text) - (the account being used locally)
-remote_id (text) - (the remote account)
-message (text) - the content of the message
+* entry_id (int, primary key)
+* session_id (int) - Reference to the session, to group conversations
+* timestamp (text)
+* protocol (text) - (the protocol in use)
+* direction (text) - (either incoming or outgoing)
+* local_id (text) - (the account being used locally)
+* remote_id (text) - (the remote account)
+* message (text) - the content of the message
+* message_type(text) - the type of message (html, plain text etc)
+
+###### Table: sessions
+Columns:
+* session_id (int, primary key)
+* session_start (timestamp)
+* session_end (timestamp)
 
 ### Week 3 (8th June - 14th June)
 
