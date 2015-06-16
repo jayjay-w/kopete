@@ -143,8 +143,8 @@ Columns:
 * entry_id (int, primary key)
 * session_id (int) - Reference to the session, to group conversations
 * timestamp (text) - Date and time of the message
-* message (text) - the content of the message
-* is_html (bool) - Is this message HTML? If yes, we will try and parse it as such
+* message (text) - The content of the message in HTML format
+* contact_name (text) - Name of contact sending/receiving messahe
 * subject (text) - If applicable, the message subject
 * importance (text?)
 * background_coloe (text) - If applicable
