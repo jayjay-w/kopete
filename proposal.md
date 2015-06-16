@@ -142,12 +142,19 @@ The database structure will be as follows:
 Columns:   
 * entry_id (int, primary key)
 * session_id (int) - Reference to the session, to group conversations
-* timestamp (text)
+* timestamp (text) - Date and time of the message
+* message (text) - the content of the message
+* is_html (bool) - Is this message HTML? If yes, we will try and parse it as such
+* subject (text) - If applicable, the message subject
+* importance (text?)
+* background_coloe (text) - If applicable
+* is_file(bool)  -  Is this message a file transfer?
+* file_name(text) - The file name
+* file(blob) - The file contents
 * protocol (text) - (the protocol in use)
 * direction (text) - (either incoming or outgoing)
 * local_id (text) - (the account being used locally)
 * remote_id (text) - (the remote account)
-* message (text) - the content of the message
 * message_type(text) - the type of message (html, plain text etc)
 
 ###### Table: sessions
