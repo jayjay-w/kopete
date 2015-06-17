@@ -160,12 +160,6 @@ Columns:
 * description (text) - A human readable description of the group
 * subject (text) - Topic being discussed.
 
-###### Table: sessions
-Columns:
-* session_id (int, primary key)
-* session_start (timestamp)
-* session_end (timestamp)
-
 ### Week 3 (8th June - 14th June)
 
 ##### Chat logging
