@@ -155,10 +155,17 @@ Columns:
 * remote_id (text) - (the remote account)
 * message_type(text) - the type of message (html, plain text etc)
 
-##### Table: groups
+###### Table: groups
 * group_id (text) - A unique identifier for the group
 * description (text) - A human readable description of the group
 * subject (text) - Topic being discussed.
+* group_type (text) - Type of group (IRC, Skype etc)
+
+#### Types of groups
+For group messages, we will be handling messages under different protocols:
+* Skype - For skype, we will use a string hash as the group's unique id.
+* IRC - The irc network/channel name can be used as the group unique id. (Eg Freenode/#kopete)
+* Jabber - The room name will be used as the unique id
 
 ### Week 3 (8th June - 14th June)
 
