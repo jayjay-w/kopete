@@ -138,7 +138,7 @@ The first step will be to start working on the existing classes that need to be 
 ##### Database structure
 The database structure will be as follows:
 
-###### Table: history
+###### Table: messages
 Columns:   
 * entry_id (int, primary key)
 * timestamp (text) - Date and time of the message
@@ -146,14 +146,13 @@ Columns:
 * contact_name (text) - Name of contact sending/receiving messahe
 * subject (text) - If applicable, the message subject
 * importance (text?)
-* background_coloe (text) - If applicable
+* background_color (text) - If applicable
 * is_group_message (bool) - Is this a group message
 * group_id (text) - Unique id of the group, if this is a group message.
 * protocol (text) - (the protocol in use)
 * direction (text) - (either incoming or outgoing)
 * local_id (text) - (the account being used locally)
 * remote_id (text) - (the remote account)
-* message_type(text) - the type of message (html, plain text etc)
 
 ###### Table: groups
 * group_id (text) - A unique identifier for the group
