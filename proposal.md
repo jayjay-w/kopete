@@ -141,21 +141,24 @@ The database structure will be as follows:
 ###### Table: history
 Columns:   
 * entry_id (int, primary key)
-* session_id (int) - Reference to the session, to group conversations
 * timestamp (text) - Date and time of the message
 * message (text) - The content of the message in HTML format
 * contact_name (text) - Name of contact sending/receiving messahe
 * subject (text) - If applicable, the message subject
 * importance (text?)
 * background_coloe (text) - If applicable
-* is_file(bool)  -  Is this message a file transfer?
-* file_name(text) - The file name
-* file(blob) - The file contents
+* is_group_message (bool) - Is this a group message
+* group_id (text) - Unique id of the group, if this is a group message.
 * protocol (text) - (the protocol in use)
 * direction (text) - (either incoming or outgoing)
 * local_id (text) - (the account being used locally)
 * remote_id (text) - (the remote account)
 * message_type(text) - the type of message (html, plain text etc)
+
+##### Table: groups
+* group_id (text) - A unique identifier for the group
+* description (text) - A human readable description of the group
+* subject (text) - Topic being discussed.
 
 ###### Table: sessions
 Columns:
