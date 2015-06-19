@@ -139,32 +139,26 @@ The first step will be to start working on the existing classes that need to be 
 The database structure will be as follows:
 
 ###### Table: messages
-Columns:   
-* entry_id (int, primary key)
-* timestamp (text) - Date and time of the message
-* message (text) - The content of the message in HTML format
-* contact_name (text) - Name of contact sending/receiving messahe
-* subject (text) - If applicable, the message subject
-* importance (text?)
-* background_color (text) - If applicable
-* is_group_message (bool) - Is this a group message
-* group_id (text) - Unique id of the group, if this is a group message.
-* protocol (text) - (the protocol in use)
-* direction (text) - (either incoming or outgoing)
-* local_id (text) - (the account being used locally)
-* remote_id (text) - (the remote account)
-
-###### Table: groups
-* group_id (text) - A unique identifier for the group
-* description (text) - A human readable description of the group
-* subject (text) - Topic being discussed.
-* group_type (text) - Type of group (IRC, Skype etc)
-
-#### Types of groups
-For group messages, we will be handling messages under different protocols:
-* Skype - For skype, we will use a string hash as the group's unique id.
-* IRC - The irc network/channel name can be used as the group unique id. (Eg Freenode/#kopete)
-* Jabber - The room name will be used as the unique id
+```sql
+CREATE TABLE "messages" (
+   "message_id" Integer Primary Key Autoincrement Not Null --Unique message identifier
+   "timestamp" Text --When the message was handled
+   "message" Text --HTML containing the message contents
+   "protocol" Text Not Null --Protocol used (Kopete::Protocol::pluginId())
+   "account" Text Not Null --Account used (Kopete::Account::accountId())
+   "direction" Integer Not Null --(Inbound = 0, Outbound=1, Internal=2) (Kopete::Message::MessageDirection)
+   "importance" Integer -- (Low, Normal, Highlight) (Kopete::Message) (Kopete::Message::MessageImportance)
+   "contact" Text -- The local contact used in this message (if applicable). (Kopete::Contact::ContactId()). If present, we know we are in single user mode.
+   "subject" Text --If applicable, this will store the subject of the message
+   "session" Text -- Internal session identifier. If this is provided, then we know we are in multi user mode.
+   "session_name" Text -- If in multi user mode, a human readable name for the session.
+   "from" Text --Internal identifier for the message sender
+   "from_name" Text --Human readable name of the message sender
+   "to" Text --Internal identifier for the message recipient
+   "to_name" Text --Human readable name of the message recipient.
+   "message_type" --The type of message. (TypeNormal, TypeAction, TypeFileTransferRequest, TypeVoiceClipRequest) (Kopete::Message::MessageType) 
+)
+```
 
 ### Week 3 (8th June - 14th June)
 
