@@ -150,14 +150,15 @@ CREATE TABLE "messages" (
    "importance" Integer, -- (Low, Normal, Highlight) (Kopete::Message) (Kopete::Message::MessageImportance)
    "contact" Text, -- The local contact used in this message (if applicable). (Kopete::Contact::ContactId()). If present, we know we are in single user mode.
    "subject" Text, --If applicable, this will store the subject of the message
-   "session" Text, -- Internal session identifier. If this is provided, then we know we are in multi user mode.
+   "session" Text, -- Internal session identifier. 
    "session_name" Text, -- If in multi user mode, a human readable name for the session.
    "from" Text, --Internal identifier for the message sender
    "from_name" Text, --Human readable name of the message sender
    "to" Text, --Internal identifier for the message recipient
    "to_name" Text, --Human readable name of the message recipient.
    "state" Integer, --(Unknown = 0, Sending = 1, Sent = 2, Error = 3)
-   "type" --The type of message. (TypeNormal, TypeAction, TypeFileTransferRequest, TypeVoiceClipRequest) (Kopete::Message::MessageType)
+   "type" Integer, --The type of message. (TypeNormal, TypeAction, TypeFileTransferRequest, TypeVoiceClipRequest) (Kopete::Message::MessageType)
+   "is_group" Integer Default='0' --If this is set to 1, then we know we are in multi user mode.
 
 ```
 
