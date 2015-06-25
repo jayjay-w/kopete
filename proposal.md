@@ -162,23 +162,23 @@ CREATE TABLE "messages" (
 
 ```
 
-### Week 3 (8th June - 14th June)
+### By Mid Term
+##### Chat logging and Mid term preparation
+Here, I will implement chat logging. The plugin should be able to store chats to the database.
 
-##### Chat logging
-This will implement chat logging, and also come up with the chat viewer. This will include creating the user interface to browse chats and search them .
-
-
-### Week 4 (15th June - 21st June)
-##### Mid term preparation 
 I will prepare for the mid term evaluation, by ensuring that the code written before this period is up to spec and working as intended.
 
 ### Week 5 (22nd June - 5th July)
 ##### Break 
 I will take a break to go to school to apply for my internship. This internship will start in October, so it will not affect my Google Summer of Code work in any way.
 
-### Weeks 6 and 7 (6th July - 19th July)
+### Weeks 6 (6th July - 11th July)
+##### Chat browser
+I will implement a GUI for browsing of chats stored in the database.
+
+###Week 7 (12th July - 19th July)
 ##### Import and Export
-I shall dedicate these two weeks to work on the import/export feature. Kopete should be able to import logs from other instant messaging apps. On adding of a new account, it should check the config paths, and detect if any of the other apps such as Telepathy have logs for that particular account. We can then prompt the user on whether or not to import these logs.
+I shall dedicate this week to work on the import/export feature. Kopete should be able to import logs from other instant messaging apps. On adding of a new account, it should check the config paths, and detect if any of the other apps such as Telepathy have logs for that particular account. We can then prompt the user on whether or not to import these logs.
 I shall also work on the export feature, where the user can export the logs as text files, or even stand alone html documents that can be viewed on the browser.
 
 ### Week 8 (20th July - 26th July)
