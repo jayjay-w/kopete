@@ -168,9 +168,9 @@ Here, I will implement chat logging. The plugin should be able to store chats to
 
 I will prepare for the mid term evaluation, by ensuring that the code written before this period is up to spec and working as intended.
 
-### Week 5 (22nd June - 5th July)
+### 29th June - 5th July
 ##### Break 
-I will take a break to go to school to apply for my internship. This internship will start in October, so it will not affect my Google Summer of Code work in any way.
+I will take a short break to go to school to apply for my internship. This internship will start in October, so it will not affect my Google Summer of Code work in any way.
 
 ### Weeks 6 (6th July - 11th July)
 ##### Chat browser
