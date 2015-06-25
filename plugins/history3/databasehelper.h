@@ -43,7 +43,7 @@ public:
 	 * @param message The message to be logged. The message details to be stored in the database
 	 * will be extracted from here.
 	 */
-	void logMessage(Kopete::Message *message);
+	void logMessage(Kopete::Message &message);
 
 	/**
 	 * @brief Search the chat history database for a specific string in the message.
