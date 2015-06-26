@@ -5,6 +5,7 @@
 #include "kopeteaccount.h"
 #include "kopetechatsession.h"
 #include "kopeteprotocol.h"
+#include "kopetechatsessionmanager.h"
 
 #include <QDate>
 #include <KStandardDirs>
@@ -54,9 +55,9 @@ void DatabaseLogger::initDatabase(DatabaseLogger::dbType dbType)
 			db.exec(
 						"CREATE TABLE \"messages\" ("
 						"\"id\" Integer Primary Key Autoincrement Not Null, "
-						"\"timestamp\" Text, "
+						"\"timestamp\" Integer, "
 						"\"message\" Text, "
-						"\"protocol\" Text "
+						"\"protocol\" Text Not Null, "
 						"\"account\" Text Not Null, "
 						"\"direction\" Integer Not Null, "
 						"\"importance\" Integer, "
@@ -82,13 +83,14 @@ void DatabaseLogger::logMessage(Kopete::Message &message)
 {
 	QSqlQuery query(db);
 
-	query.prepare("INSERT INTO `messages` (`timestamp`, `message`, `protocol`, `direction`, `importance`, `contact`, `subject`, "
-		      "`session`, `session_name`, `from`, `from_name`, `to`, `to_name`, `state`, `type`, `is_group`) "
-		      " VALUES (:timestamp, :message, :protocol, :direction, :importance, :contact, :subject, :session, :session_name, "
-		      ":from, :from_name, :to, :to_name, :state, :type, :is_group)");
+	query.prepare("INSERT INTO `messages` (`timestamp`, `message`, `account`, `protocol`, `direction`, `importance`, `contact`, `subject`, "
+		      " `session`, `session_name`, `from`, `from_name`, `to`, `to_name`, `state`, `type`, `is_group`) "
+		      " VALUES (:timestamp, :message, :account, :protocol, :direction, :importance, :contact, :subject, :session, :session_name, "
+		      " :from, :from_name, :to, :to_name, :state, :type, :is_group)");
 
-	query.bindValue(":timestamp", message.timestamp().toString());
+	query.bindValue(":timestamp", message.timestamp().toString("yyyyMMddHHmmsszzz"));
 	query.bindValue(":message", message.parsedBody());
+	query.bindValue(":account", message.manager()->account()->accountId());
 	query.bindValue(":protocol", message.manager()->account()->protocol()->pluginId());
 	query.bindValue(":direction", QString::number(message.direction()));
 	query.bindValue(":importance", QString::number(message.importance()));
@@ -111,9 +113,9 @@ void DatabaseLogger::logMessage(Kopete::Message &message)
 		}
 		to.chop(1);
 		to_name.chop(1);
-		query.bindValue(":is_group", "1");
 		query.bindValue(":to", to);
 		query.bindValue(":to_name", to_name);
+		query.bindValue(":is_group", "1");
 	}
 	query.bindValue(":state", QString::number(message.state()));
 	query.bindValue(":type", QString::number(message.type()));
