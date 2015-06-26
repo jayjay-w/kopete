@@ -140,18 +140,18 @@ The database structure will be as follows:
 
 ###### Table: messages
 ```sql
-CREATE TABLE "messages" (   
+CREATE TABLE "messages" (  
    "id" Integer Primary Key Autoincrement Not Null, --Unique message identifier
-   "timestamp" Text, --When the message was handled
+   "timestamp" Integer, --When the message was handled
    "message" Text, --HTML containing the message contents
    "protocol" Text Not Null, --Protocol used (Kopete::Protocol::pluginId())
    "account" Text Not Null, --Account used (Kopete::Account::accountId())
    "direction" Integer Not Null, --(Inbound = 0, Outbound=1, Internal=2) (Kopete::Message::MessageDirection)
    "importance" Integer, -- (Low, Normal, Highlight) (Kopete::Message) (Kopete::Message::MessageImportance)
-   "contact" Text, -- The local contact used in this message (if applicable). (Kopete::Contact::ContactId()). If present, we know we are in single user mode.
+   "contact" Text, -- The local contact used in this message (if applicable). (Kopete::Contact::ContactId()).
    "subject" Text, --If applicable, this will store the subject of the message
-   "session" Text, -- Internal session identifier. 
-   "session_name" Text, -- If in multi user mode, a human readable name for the session.
+   "session" Text, -- Internal session identifier.
+   "session_name" Text, -- A human readable name for the session.
    "from" Text, --Internal identifier for the message sender
    "from_name" Text, --Human readable name of the message sender
    "to" Text, --Internal identifier for the message recipient
@@ -159,7 +159,6 @@ CREATE TABLE "messages" (
    "state" Integer, --(Unknown = 0, Sending = 1, Sent = 2, Error = 3)
    "type" Integer, --The type of message. (TypeNormal, TypeAction, TypeFileTransferRequest, TypeVoiceClipRequest) (Kopete::Message::MessageType)
    "is_group" Integer Default='0' --If this is set to 1, then we know we are in multi user mode.
-
 ```
 
 ### By Mid Term
