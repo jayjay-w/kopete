@@ -5,12 +5,11 @@
 
 #include "kopetechatsessionmanager.h"
 
-typedef KGenericFactory<History3Plugin> History3PluginFactory;
-static const KAboutData aboutData("kopete_history3", 0, ki18n("History3"), "0.0.1");
+K_PLUGIN_FACTORY(History3PluginFactory, registerPlugin<History3Plugin>();)
+K_EXPORT_PLUGIN(History3PluginFactory( "kopete_history3" ))
 
-K_EXPORT_COMPONENT_FACTORY(kopete_history3, History3PluginFactory(&aboutData))
 
-History3Plugin::History3Plugin(QObject *parent, const QStringList &/*args*/)
+History3Plugin::History3Plugin(QObject *parent, const QVariantList &/*args*/)
  : Kopete::Plugin(History3PluginFactory::componentData(), parent)
 {
 	dbHelper = new DatabaseLogger(this);

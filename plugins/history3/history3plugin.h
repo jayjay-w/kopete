@@ -1,7 +1,7 @@
 #ifndef HISTORY3PLUGIN_H
 #define HISTORY3PLUGIN_H
 
-#include <QStringList>
+#include <QVariantList>
 #include "kopeteplugin.h"
 #include "databaselogger.h"
 
@@ -10,7 +10,7 @@ class History3Plugin : public Kopete::Plugin
 {
 	Q_OBJECT
 public:
-	History3Plugin(QObject *parent, const QStringList &);
+	History3Plugin(QObject *parent, const QVariantList &);
 	~History3Plugin();
 
 public slots:
