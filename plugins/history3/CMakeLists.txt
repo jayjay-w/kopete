@@ -4,7 +4,7 @@ include_directories(
 
 ########### next target ###############
 
-set(kopete_history3_PART_SRCS history3plugin.cpp databasehelper.cpp )
+set(kopete_history3_PART_SRCS history3plugin.cpp databaselogger.cpp )
 kde4_add_plugin(kopete_history3 ${kopete_history3_PART_SRCS} )
 
 target_link_libraries(kopete_history3 ${KDE4_KHTML_LIBS} kopete ${QT_QTSQL_LIBRARY})

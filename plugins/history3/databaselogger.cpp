@@ -1,4 +1,4 @@
-#include "databasehelper.h"
+#include "databaselogger.h"
 
 #include "kopetecontact.h"
 #include "kopetemessage.h"
@@ -11,21 +11,21 @@
 #include <QSqlQuery>
 #include <QDebug>
 
-DatabaseHelper::DatabaseHelper(QObject *parent)
+DatabaseLogger::DatabaseLogger(QObject *parent)
 	: QObject(parent)
 {
 	qDebug() << "Initializing history3 plugin";
 	initDatabase(SQLITE);
 }
 
-DatabaseHelper::~DatabaseHelper()
+DatabaseLogger::~DatabaseLogger()
 {
 	if (db.open()) {
 		db.close();
 	}
 }
 
-void DatabaseHelper::initDatabase(DatabaseHelper::dbType dbType)
+void DatabaseLogger::initDatabase(DatabaseLogger::dbType dbType)
 {
 	if (db.open())
 		db.close();
@@ -78,7 +78,7 @@ void DatabaseHelper::initDatabase(DatabaseHelper::dbType dbType)
 
 #include <QSqlError>
 #include <QMessageBox>
-void DatabaseHelper::logMessage(Kopete::Message &message)
+void DatabaseLogger::logMessage(Kopete::Message &message)
 {
 	QSqlQuery query(db);
 
@@ -116,14 +116,14 @@ void DatabaseHelper::logMessage(Kopete::Message &message)
 	}
 }
 
-QList<Kopete::Message> DatabaseHelper::search(QString searchText)
+QList<Kopete::Message> DatabaseLogger::search(QString searchText)
 {
 	QList<Kopete::Message> searchResults;
 
 	return searchResults;
 }
 
-QList<Kopete::Message> DatabaseHelper::search(Kopete::Account *account, Kopete::Contact *remote_contact, QDate startDate, QDate endDate, QString searchText)
+QList<Kopete::Message> DatabaseLogger::search(Kopete::Account *account, Kopete::Contact *remote_contact, QDate startDate, QDate endDate, QString searchText)
 {
 	QList<Kopete::Message> searchResults;
 

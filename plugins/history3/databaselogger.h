@@ -1,5 +1,5 @@
-#ifndef DATABASEHELPER_H
-#define DATABASEHELPER_H
+#ifndef DATABASELOGGER_H
+#define DATABASELOGGER_H
 
 #include <QObject>
 #include <QSqlDatabase>
@@ -13,7 +13,7 @@ namespace Kopete {
 
 class QDate;
 
-class DatabaseHelper : public QObject
+class DatabaseLogger : public QObject
 {
 	Q_OBJECT
 public:
@@ -27,9 +27,9 @@ public:
 	 * @brief Constructs a new DataBaseHelper class instance. There should only be one
 	 * instance for every instance of Kopete running.
 	 */
-	explicit DatabaseHelper(QObject *parent = 0);
+	explicit DatabaseLogger(QObject *parent = 0);
 
-	~DatabaseHelper();
+	~DatabaseLogger();
 
 	/**
 	 * @brief Initializes the database. This should create the db based on the preferences
@@ -68,10 +68,10 @@ public:
 	 * @brief This is used to get the database helper for the current Kopete instance.
 	 * @return a pointer to DatabaseHelper
 	 */
-	static DatabaseHelper *instance();
+	static DatabaseLogger *instance();
 private:
-	static DatabaseHelper *mInstance;
+	static DatabaseLogger *mInstance;
 	QSqlDatabase db;
 };
 
-#endif // DATABASEHELPER_H
+#endif // DATABASELOGGER_H
