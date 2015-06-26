@@ -77,8 +77,6 @@ void DatabaseLogger::initDatabase(DatabaseLogger::dbType dbType)
 	}
 }
 
-#include <QSqlError>
-#include <QMessageBox>
 void DatabaseLogger::logMessage(Kopete::Message &message)
 {
 	QSqlQuery query(db);
@@ -121,10 +119,6 @@ void DatabaseLogger::logMessage(Kopete::Message &message)
 	query.bindValue(":type", QString::number(message.type()));
 
 	query.exec();
-
-	if (query.lastError().isValid()) {
-		QMessageBox::critical(0, "Error", QDateTime::currentDateTime().toString() + "\n" + query.lastError().text() + "\n" + query.lastQuery());
-	}
 }
 
 QList<Kopete::Message> DatabaseLogger::search(QString searchText)
