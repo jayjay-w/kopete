@@ -103,11 +103,20 @@ void DatabaseLogger::logMessage(Kopete::Message &message)
 		query.bindValue(":to_name", message.to().at(0)->displayName());
 		query.bindValue(":is_group", "0");
 	} else {
+		//Save the to and to_name fields as comma delimited lists of the recepient ids and names
+		QString to, to_name;
+		for (int i = 0; i < message.to().count(); i++) {
+			to.append(message.to().at(i)->contactId() + ",");
+			to_name.append(message.to().at(i)->displayName() + ",");
+		}
+		to.chop(1);
+		to_name.chop(1);
 		query.bindValue(":is_group", "1");
+		query.bindValue(":to", to);
+		query.bindValue(":to_name", to_name);
 	}
 	query.bindValue(":state", QString::number(message.state()));
 	query.bindValue(":type", QString::number(message.type()));
-	query.bindValue(":is_group", "");
 
 	query.exec();
 
