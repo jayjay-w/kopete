@@ -86,7 +86,7 @@ void DatabaseLogger::logMessage(Kopete::Message &message)
 		      " VALUES (:timestamp, :message, :account, :protocol, :direction, :importance, :contact, :subject, :session, :session_name, "
 		      " :from, :from_name, :to, :to_name, :state, :type, :is_group)");
 
-	query.bindValue(":timestamp", message.timestamp().toString("yyyyMMddHHmmsszzz"));
+	query.bindValue(":timestamp", QString::number(message.timestamp().toTime_t()));
 	query.bindValue(":message", message.parsedBody());
 	query.bindValue(":account", message.manager()->account()->accountId());
 	query.bindValue(":protocol", message.manager()->account()->protocol()->pluginId());
