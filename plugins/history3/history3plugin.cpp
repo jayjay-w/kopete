@@ -13,7 +13,6 @@ History3Plugin::History3Plugin(QObject *parent, const QVariantList &/*args*/)
  : Kopete::Plugin(History3PluginFactory::componentData(), parent)
 {
 	dbHelper = new DatabaseLogger(this);
-	dbHelper->initDatabase(DatabaseLogger::SQLITE);
 
 	connect (Kopete::ChatSessionManager::self(), SIGNAL(aboutToDisplay(Kopete::Message&)), this, SLOT(handleKopeteMessage(Kopete::Message&)));
 }

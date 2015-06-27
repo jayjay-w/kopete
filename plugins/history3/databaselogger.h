@@ -1,15 +1,8 @@
 #ifndef DATABASELOGGER_H
 #define DATABASELOGGER_H
 
+#include "databasemanager.h"
 #include <QObject>
-#include <QSqlDatabase>
-
-namespace Kopete {
-	class Account;
-	class Contact;
-	class Message;
-	class Protocol;
-}
 
 class QDate;
 
@@ -17,12 +10,6 @@ class DatabaseLogger : public QObject
 {
 	Q_OBJECT
 public:
-	enum dbType {
-		SQLITE = 0,
-		MYSQL = 1,
-		POSTGRESQL = 2
-	};
-
 	/**
 	 * @brief Constructs a new DataBaseHelper class instance. There should only be one
 	 * instance for every instance of Kopete running.
@@ -30,13 +17,6 @@ public:
 	explicit DatabaseLogger(QObject *parent = 0);
 
 	~DatabaseLogger();
-
-	/**
-	 * @brief Initializes the database. This should create the db based on the preferences
-	 * that the user has set.
-	 * @param dbType
-	 */
-	void initDatabase(dbType dbType);
 
 	/**
 	 * @brief Insert a new chat message to the database.
@@ -71,7 +51,6 @@ public:
 	static DatabaseLogger *instance();
 private:
 	static DatabaseLogger *mInstance;
-	QSqlDatabase db;
 };
 
 #endif // DATABASELOGGER_H
