@@ -15,12 +15,15 @@
 DatabaseLogger::DatabaseLogger(QObject *parent)
 	: QObject(parent)
 {
-	qDebug() << "Initializing history3 plugin";
+	//Initialize the database. Currently this is only targeting SQLite, but once we
+	//add more database systems, we will pick the database system defined in the
+	//preferences
 	initDatabase(SQLITE);
 }
 
 DatabaseLogger::~DatabaseLogger()
 {
+	//If the database is open, close it.
 	if (db.open()) {
 		db.close();
 	}
@@ -28,30 +31,33 @@ DatabaseLogger::~DatabaseLogger()
 
 void DatabaseLogger::initDatabase(DatabaseLogger::dbType dbType)
 {
+	//Close the database, in case it is open.
 	if (db.open())
 		db.close();
 
+	//Create the database tables based on the selected database system
 	if (dbType == SQLITE) {
+		//For SQLite, we store the database in the user's application data folder.
 		QString dbPath = KStandardDirs::locateLocal("appdata", "kopete_history3.db");
 		db = QSqlDatabase::addDatabase("QSQLITE", "kopete-history");
 		db.setDatabaseName(dbPath);
 
+		//Abort in case the database creation/opening fails.
 		if (!db.open()) {
 			//Database not open
 			return;
 		}
 
-		//Check if the messages table exists
+		//Here we get a list of all tables in the SQLite database
 		QSqlQuery tableCheckQuery("SELECT name FROM sqlite_master WHERE type='table'", db);
 		tableCheckQuery.exec();
-
 		QStringList tables;
 		while (tableCheckQuery.next()) {
 			tables.append(tableCheckQuery.value(0).toString());
 		}
 
+		//If the messages table does not exist, we can now create it.
 		if (!tables.contains("messages")) {
-			//messages table not found. So we create it
 			db.exec(
 						"CREATE TABLE \"messages\" ("
 						"\"id\" Integer Primary Key Autoincrement Not Null, "
@@ -81,11 +87,13 @@ void DatabaseLogger::logMessage(Kopete::Message &message)
 {
 	QSqlQuery query(db);
 
+	//Prepare an SQL query to insert the message to the db
 	query.prepare("INSERT INTO `messages` (`timestamp`, `message`, `account`, `protocol`, `direction`, `importance`, `contact`, `subject`, "
 		      " `session`, `session_name`, `from`, `from_name`, `to`, `to_name`, `state`, `type`, `is_group`) "
 		      " VALUES (:timestamp, :message, :account, :protocol, :direction, :importance, :contact, :subject, :session, :session_name, "
 		      " :from, :from_name, :to, :to_name, :state, :type, :is_group)");
 
+	//Add the values to the database fields.
 	query.bindValue(":timestamp", QString::number(message.timestamp().toTime_t()));
 	query.bindValue(":message", message.parsedBody());
 	query.bindValue(":account", message.manager()->account()->accountId());
@@ -98,12 +106,15 @@ void DatabaseLogger::logMessage(Kopete::Message &message)
 	query.bindValue(":session_name", "");
 	query.bindValue(":from", message.from()->contactId());
 	query.bindValue(":from_name", message.from()->displayName());
+
+	//If we are dealing with only one recepient, we save this as a single user chat
 	if (message.to().count() == 1) {
 		query.bindValue(":to", message.to().at(0)->contactId());
 		query.bindValue(":to_name", message.to().at(0)->displayName());
 		query.bindValue(":is_group", "0");
 	} else {
-		//Save the to and to_name fields as comma delimited lists of the recepient ids and names
+		//Otherwise we will create a string with the contact ids of the recepients, and another string to
+		//hold the contact names of the recepients. Both these strings are comma delimited.
 		QString to, to_name;
 		for (int i = 0; i < message.to().count(); i++) {
 			to.append(message.to().at(i)->contactId() + ",");
@@ -118,6 +129,7 @@ void DatabaseLogger::logMessage(Kopete::Message &message)
 	query.bindValue(":state", QString::number(message.state()));
 	query.bindValue(":type", QString::number(message.type()));
 
+	//Save the query to the database.
 	query.exec();
 }
 
