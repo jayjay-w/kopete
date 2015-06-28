@@ -1,9 +1,9 @@
-#include "databaselogger.h"
+#include "chathistoryhandler.h"
 #include "kopetemessage.h"
 
 #include <QDate>
 
-DatabaseLogger::DatabaseLogger(QObject *parent)
+ChatHistoryHandler::ChatHistoryHandler(QObject *parent)
 	: QObject(parent)
 {
 	//Initialize the database. Currently this is only targeting SQLite, but once we
@@ -12,24 +12,24 @@ DatabaseLogger::DatabaseLogger(QObject *parent)
 	DatabaseManager::instance()->InitDatabase(DatabaseManager::SQLITE);
 }
 
-DatabaseLogger::~DatabaseLogger()
+ChatHistoryHandler::~ChatHistoryHandler()
 {
 
 }
 
-void DatabaseLogger::logMessage(Kopete::Message &message)
+void ChatHistoryHandler::logMessage(Kopete::Message &message)
 {
 	DatabaseManager::instance()->insertMessage(message);
 }
 
-QList<Kopete::Message> DatabaseLogger::search(QString searchText)
+QList<Kopete::Message> ChatHistoryHandler::search(QString searchText)
 {
 	QList<Kopete::Message> searchResults;
 
 	return searchResults;
 }
 
-QList<Kopete::Message> DatabaseLogger::search(Kopete::Account *account, Kopete::Contact *remote_contact, QDate startDate, QDate endDate, QString searchText)
+QList<Kopete::Message> ChatHistoryHandler::search(Kopete::Account *account, Kopete::Contact *remote_contact, QDate startDate, QDate endDate, QString searchText)
 {
 	QList<Kopete::Message> searchResults;
 

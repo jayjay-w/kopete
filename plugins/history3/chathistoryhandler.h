@@ -1,22 +1,26 @@
-#ifndef DATABASELOGGER_H
-#define DATABASELOGGER_H
+#ifndef CHATHISTORYHANDLER_H
+#define CHATHISTORYHANDLER_H
 
 #include "databasemanager.h"
 #include <QObject>
 
 class QDate;
 
-class DatabaseLogger : public QObject
+/**
+ * @brief The ChatHistoryHandler class is used to handle all history connected activities, and
+ * then class the respective class (logger, searcher etc).
+ */
+class ChatHistoryHandler : public QObject
 {
 	Q_OBJECT
 public:
 	/**
-	 * @brief Constructs a new DataBaseHelper class instance. There should only be one
+	 * @brief Constructs a new ChatHistoryHandler class instance. There should only be one
 	 * instance for every instance of Kopete running.
 	 */
-	explicit DatabaseLogger(QObject *parent = 0);
+	explicit ChatHistoryHandler(QObject *parent = 0);
 
-	~DatabaseLogger();
+	~ChatHistoryHandler();
 
 	/**
 	 * @brief Insert a new chat message to the database.
@@ -48,9 +52,9 @@ public:
 	 * @brief This is used to get the database helper for the current Kopete instance.
 	 * @return a pointer to DatabaseHelper
 	 */
-	static DatabaseLogger *instance();
+	static ChatHistoryHandler *instance();
 private:
-	static DatabaseLogger *mInstance;
+	static ChatHistoryHandler *mInstance;
 };
 
-#endif // DATABASELOGGER_H
+#endif // CHATHISTORYHANDLER_H
