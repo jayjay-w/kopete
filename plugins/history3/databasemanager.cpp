@@ -131,6 +131,7 @@ void DatabaseManager::insertMessage(Kopete::Message &message)
 
 DatabaseManager *DatabaseManager::instance()
 {
+	//Check if there is an instance of this class. If there is none, a new one will be created.
 	if (!mInstance)
 		mInstance = new DatabaseManager(kapp);
 

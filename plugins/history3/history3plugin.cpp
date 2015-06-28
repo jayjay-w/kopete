@@ -12,7 +12,7 @@ K_EXPORT_PLUGIN(History3PluginFactory( "kopete_history3" ))
 History3Plugin::History3Plugin(QObject *parent, const QVariantList &/*args*/)
  : Kopete::Plugin(History3PluginFactory::componentData(), parent)
 {
-	dbHelper = new DatabaseLogger(this);
+	dbHelper = new ChatHistoryHandler(this);
 
 	connect (Kopete::ChatSessionManager::self(), SIGNAL(aboutToDisplay(Kopete::Message&)), this, SLOT(handleKopeteMessage(Kopete::Message&)));
 }

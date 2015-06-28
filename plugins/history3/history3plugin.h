@@ -3,7 +3,7 @@
 
 #include <QVariantList>
 #include "kopeteplugin.h"
-#include "databaselogger.h"
+#include "chathistoryhandler.h"
 
 
 class History3Plugin : public Kopete::Plugin
@@ -17,7 +17,7 @@ public slots:
 	void handleKopeteMessage(Kopete::Message &msg);
 
 private:
-	DatabaseLogger *dbHelper;
+	ChatHistoryHandler *dbHelper;
 };
 
 #endif // HISTORY3PLUGIN_H
