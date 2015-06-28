@@ -17,7 +17,7 @@ public slots:
 	void handleKopeteMessage(Kopete::Message &msg);
 
 private:
-	ChatHistoryHandler *dbHelper;
+	ChatHistoryHandler *chatHandler;
 };
 
 #endif // HISTORY3PLUGIN_H
