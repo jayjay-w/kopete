@@ -25,17 +25,8 @@ public:
 	 * preferences.
 	 */
 	enum DatabaseType {
-		SQLITE = 0,
-		MYSQL = 1,
-		POSTGRESQL = 2
+		SQLITE = 0
 	};
-
-	/**
-	 * @brief DatabaseManager class constructor. If there is no instance of the class in
-	 * existance, a new one will be created.
-	 * @param parent The QObject parent of this class
-	 */
-	explicit DatabaseManager(QObject *parent = 0);
 
 	/**
 	  * Class destructor.
@@ -50,7 +41,7 @@ public:
 	 * needed tables are be initialized.
 	 * @param dbType
 	 */
-	void InitDatabase(DatabaseType dbType);
+	void initDatabase(DatabaseType dbType);
 
 	/**
 	 * @brief Inserts a chat message into the database. All chat related details such as
@@ -66,6 +57,13 @@ public:
 	 */
 	static DatabaseManager *instance();
 private:
+	/**
+	 * @brief DatabaseManager class constructor. If there is no instance of the class in
+	 * existance, a new one will be created.
+	 * @param parent The QObject parent of this class
+	 */
+	explicit DatabaseManager(QObject *parent = 0);
+
 	/**
 	 * @brief QSqlDatabase containing the database used to log the chats.
 	 */

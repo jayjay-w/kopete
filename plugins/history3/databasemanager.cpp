@@ -15,7 +15,7 @@
 DatabaseManager* DatabaseManager::mInstance = 0;
 
 DatabaseManager::DatabaseManager(QObject *parent)
- : QObject(parent)
+	: QObject(parent)
 {
 	mInstance = this;
 }
@@ -25,14 +25,15 @@ DatabaseManager::~DatabaseManager()
 
 }
 
-void DatabaseManager::InitDatabase(DatabaseManager::DatabaseType dbType)
+void DatabaseManager::initDatabase(DatabaseManager::DatabaseType dbType)
 {
 	//Close the database, in case it is open.
-	if (db.open())
+	if (db.isOpen())
 		db.close();
 
 	//Create the database tables based on the selected database system
-	if (dbType == DatabaseManager::SQLITE) {
+	switch (dbType) {
+	case SQLITE:
 		//For SQLite, we store the database in the user's application data folder.
 		QString dbPath = KStandardDirs::locateLocal("appdata", "kopete_history3.db");
 		db = QSqlDatabase::addDatabase("QSQLITE", "kopete-history");
@@ -44,38 +45,28 @@ void DatabaseManager::InitDatabase(DatabaseManager::DatabaseType dbType)
 			return;
 		}
 
-		//Here we get a list of all tables in the SQLite database
-		QSqlQuery tableCheckQuery("SELECT name FROM sqlite_master WHERE type='table'", db);
-		tableCheckQuery.exec();
-		QStringList tables;
-		while (tableCheckQuery.next()) {
-			tables.append(tableCheckQuery.value(0).toString());
-		}
-
-		//If the messages table does not exist, we can now create it.
-		if (!tables.contains("messages")) {
-			db.exec(
-						"CREATE TABLE \"messages\" ("
-						"\"id\" Integer Primary Key Autoincrement Not Null, "
-						"\"timestamp\" Integer, "
-						"\"message\" Text, "
-						"\"protocol\" Text Not Null, "
-						"\"account\" Text Not Null, "
-						"\"direction\" Integer Not Null, "
-						"\"importance\" Integer, "
-						"\"contact\" Text, "
-						"\"subject\" Text, "
-						"\"session\" Text, "
-						"\"session_name\" Text, "
-						"\"from\" Text, "
-						"\"from_name\" Text, "
-						"\"to\" Text, "
-						"\"to_name\" Text, "
-						"\"state\" Integer, "
-						"\"type\" Integer, "
-						"\"is_group\" Integer Default'0') "
-						);
-		}
+		//If the messages table does not exist, lets create it.
+		db.exec(
+					"CREATE TABLE IF NOT EXISTS \"messages\" ("
+					"\"id\" Integer Primary Key Autoincrement Not Null, "
+					"\"timestamp\" Integer, "
+					"\"message\" Text, "
+					"\"protocol\" Text Not Null, "
+					"\"account\" Text Not Null, "
+					"\"direction\" Integer Not Null, "
+					"\"importance\" Integer, "
+					"\"contact\" Text, "
+					"\"subject\" Text, "
+					"\"session\" Text, "
+					"\"session_name\" Text, "
+					"\"from\" Text, "
+					"\"from_name\" Text, "
+					"\"to\" Text, "
+					"\"to_name\" Text, "
+					"\"state\" Integer, "
+					"\"type\" Integer, "
+					"\"is_group\" Integer Default'0') "
+					);
 	}
 }
 
@@ -112,9 +103,9 @@ void DatabaseManager::insertMessage(Kopete::Message &message)
 		//Otherwise we will create a string with the contact ids of the recepients, and another string to
 		//hold the contact names of the recepients. Both these strings are comma delimited.
 		QString to, to_name;
-		for (int i = 0; i < message.to().count(); i++) {
-			to.append(message.to().at(i)->contactId() + ",");
-			to_name.append(message.to().at(i)->displayName() + ",");
+		foreach (Kopete::Contact *c, message.to()) {
+			to.append(c->contactId() + ",");
+			to_name.append(c->displayName() + ",");
 		}
 		to.chop(1);
 		to_name.chop(1);

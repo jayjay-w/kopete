@@ -9,7 +9,7 @@ ChatHistoryHandler::ChatHistoryHandler(QObject *parent)
 	//Initialize the database. Currently this is only targeting SQLite, but once we
 	//add more database systems, we will pick the database system defined in the
 	//preferences
-	DatabaseManager::instance()->InitDatabase(DatabaseManager::SQLITE);
+	DatabaseManager::instance()->initDatabase(DatabaseManager::SQLITE);
 }
 
 ChatHistoryHandler::~ChatHistoryHandler()
