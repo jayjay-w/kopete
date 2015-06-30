@@ -167,13 +167,10 @@ Here, I will implement chat logging. The plugin should be able to store chats to
 
 I will prepare for the mid term evaluation, by ensuring that the code written before this period is up to spec and working as intended.
 
-### 29th June - 5th July
-##### Break 
-I will take a short break to go to school to apply for my internship. This internship will start in October, so it will not affect my Google Summer of Code work in any way.
-
 ### Weeks 6 (6th July - 11th July)
-##### Chat browser
-I will implement a GUI for browsing of chats stored in the database.
+##### Chat browser and improved database communication
+I will implement a GUI for browsing of chats stored in the database. I also plan to move all of the database code to
+a different thread to avoid blocking of the UI thread,
 
 ###Week 7 (12th July - 19th July)
 ##### Import and Export
@@ -181,14 +178,20 @@ I shall dedicate this week to work on the import/export feature. Kopete should b
 I shall also work on the export feature, where the user can export the logs as text files, or even stand alone html documents that can be viewed on the browser.
 
 ### Week 8 (20th July - 26th July)
+##### MySQL/Postgre SQL
+I shall take time to implement other RDBMS. This will include:
+-A UI for entering database credentials
+-Proper logging of chats to the selected database system.
+
+### Week 9 (27 July - 2nd August)
 ##### Backup / Restore
 I shall work on a feature to enable the user back up the chat history, and restore it later. This backup will be saved in a compressed file, and It can be used when migrating to a new computer.
 
-### Week 9 (27 July - 2nd August)
+### Week 10 (3rd August - 9th August)
 ##### Testing and UI Polishing
 This week shall be dedicated to thorough testing, UI polishing and other improvements. I shall also focus on speed improvements, in the searching of logs, importing and exporting.
 
-### Rest of the Program (3rd August - 17th August)
+### Rest of the Program (Until 17th August)
 ##### Bug fixes
 I will focus on bug fixes based on users' and developers' feedback and documentation writing. I have also dedicated a lot of time for this last segment, so that it can cater for any unforeseen delays in the preceding segments.
 
