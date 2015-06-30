@@ -28,48 +28,71 @@
 
 The plugin shall be made up of these core classes, which will have the same format and naming used in the current plugin:
 
-##### DatabaseHelper
+##### DatabaseManager
 This is the database interface class. It will contain the functions that will be used for communication with the database.
 
 ###### Structure:
 ```cpp
 public:
-	DatabaseHelper(QObject *parent);
-	~DatabaseHelper();
+	enum DatabaseType {
+		SQLITE = 0
+	};
+
+	~DatabaseManager();
 	
-	static DatabaseHelper *instance();
+	initDatabase(DatabaseType dbType);
+
+	void insertMessage(Kopete::Message &message);
+
+	static DatabaseManager *instance();
 private:
-	static DatabaseHelper *m_instance;
-	QSqlDatabase m_db;	
+
+	explicit DatabaseManager(QObject *parent = 0);
+
+	QSqlDatabase db;
+
+	static DatabaseManager *mInstance;	
 ```
 
-#### DbInsertHelper
+#### ChatHistoryHandler
+This class will be used to coordinate the other history classes (Logging, Searching, Backup/Restore).
+
+This is the current structure, which is still being improved:
 ```cpp
-	void insert(Kopete::Contact *from, Kopete::Contact *to, QString message, QDateTime timeStamp = QDateTime::currentDateTime);
-```
+	explicit ChatHistoryHandler(QObject *parent = 0);
 
-#### DBSearchHelper
-```cpp
-	QList<Kopete::Message> search(QString text);
-	QList<Kopete::Message> search(Kopete::Contact *contact, QString text);
-	QList<Kopete::Message> search(Kopete::Contact *from);
-	QList<Kopete::Message> search(Kopete::Contact *to);
-	QList<Kopete::Message> search(Kopete::Contact *from, Kopete::Contact *to);
-	QList<Kopete::Message> search(Kopete::Contact *from, QDate date);
-	QList<Kopete::Message> search(Kopete::Contact *to, QDate date);
-```
+	~ChatHistoryHandler();
 
+	void logMessage(Kopete::Message &message);
+
+	QList<Kopete::Message> search(QString searchText);
+
+	QList<Kopete::Message> search(Kopete::Account *account, Kopete::Contact *remote_contact, QDate startDate,
+				      QDate endDate, QString searchText);
+
+	static ChatHistoryHandler *instance();
+private:
+	static ChatHistoryHandler *mInstance;
+```
 
 ##### HistoryPlugin
-The main plugin class. I will use this to control the other classes.  There will be only one instance of this class, and it will be used to specify the default logging destination (SQLite or other RDBMS).
+The main plugin class. I will use this to initialize the plugin, and connect the main application to the plugin.  There will be only one instance of this class.
 
-The structure is the same as the current plugins’:
+The structure is similar to the current plugins’:
 ```cpp
-	HistoryPlugin(QObject *parent, QStringList args); //- Class constructor.
-	~HistoryPlugin(); //- Destructor
-	void messageDisplayed(Kopete::Message m); //- This will handle all incoming and  outgoing messages, and log them to the database.
-	void viewHistory(); //- This will be called to display the HistoryViewer dialog.
-	void sessionClosed(); //- This will be called whenever a chat session ends, so that the logging to the database can be finalised.
+class History3Plugin : public Kopete::Plugin
+{
+	Q_OBJECT
+public:
+	History3Plugin(QObject *parent, const QVariantList &);
+	~History3Plugin();
+
+public slots:
+	void handleKopeteMessage(Kopete::Message &msg);
+	void viewHistory();
+private:
+	ChatHistoryHandler *chatHandler;
+};
 ```
 ##### HistoryImport/History Export
 These classes will be used to import and export Kopete logs, and logs to/from other IM applications. I plan on making it plugin aware, so that it will be easy to add support for other IM applications.
@@ -97,28 +120,11 @@ Chats will be exported to destinations such as HTML, XML, text documents etc.
 
 ```
 
-
-
-
-##### HistoryLogger
-Handling of all the logging. For every open chat window, we will have an instance of the HistoryLogger class, and each message will be logged on receipt and on sending, based on the default logging  destination.
-
-###### Structure:
-```cpp
-	QList<QDate> getDays(Kopete::MetaContact c, QString search = “”); //- Get a list of days that chats for a particular contact exist.
-	void appendMessage(Kopete::Message msg, Kopete::Contact c); //- Append a message to the database.
-	bool messageExists(Kopete::Message msg, Kopete::Contact c); //- Check if a particular message for a particular contact exists in the database.
-	QList<Kopete::Message> readMessages(QDate date, Kopete::MetaContact contact); //- return a list logged of messages for a particular contact.
-
-	HistoryLogger(); //- Constructor
-	~HistoryLogger(); //- Class Destructor
-	QSqlDatabase m_db; //- Database used for logging chats
-	static HistoryLogger *m_instance; //- Pointer to get the current instance of the class.
-```
-
 ##### HistoryPreferences
 This will have a user interface, and it will allow the user to configure the plugin. The user will be able to configure visual aspects of the plugin such as colors, fonts, number of lines to display etc. The user will also be able to configure the default logging destination, and if an RDBMS is selected, they will be given an option to specify the database system details such as credentials and server names.
 
+##### Others
+There will be other classes, more so the ones for handling database threads and chat backups. I will update this document as deeded.
 
 
 ## Tentative Timeline
