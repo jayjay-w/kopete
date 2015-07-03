@@ -87,7 +87,15 @@ void DatabaseManager::insertMessage(Kopete::Message &message)
 	query.bindValue(":protocol", message.manager()->account()->protocol()->pluginId());
 	query.bindValue(":direction", QString::number(message.direction()));
 	query.bindValue(":importance", QString::number(message.importance()));
-	query.bindValue(":contact", "");
+
+	QString contact;
+	if (message.direction() == Kopete::Message::Outbound) {
+		contact = message.to().at(0)->contactId();
+	} else {
+		contact = message.from()->contactId();
+	}
+	query.bindValue(":contact", contact);
+
 	query.bindValue(":subject", message.subject());
 	query.bindValue(":session", "");
 	query.bindValue(":session_name", "");
