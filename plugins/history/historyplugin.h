@@ -1,17 +1,17 @@
-#ifndef HISTORY3PLUGIN_H
-#define HISTORY3PLUGIN_H
+#ifndef HISTORYPLUGIN_H
+#define HISTORYPLUGIN_H
 
 #include <QVariantList>
 #include "kopeteplugin.h"
 #include "chathistoryhandler.h"
 
 
-class History3Plugin : public Kopete::Plugin
+class HistoryPlugin : public Kopete::Plugin
 {
 	Q_OBJECT
 public:
-	History3Plugin(QObject *parent, const QVariantList &);
-	~History3Plugin();
+    HistoryPlugin(QObject *parent, const QVariantList &);
+    ~HistoryPlugin();
 
 public slots:
 	void handleKopeteMessage(Kopete::Message &msg);
@@ -20,4 +20,4 @@ private:
 	ChatHistoryHandler *chatHandler;
 };
 
-#endif // HISTORY3PLUGIN_H
+#endif // HISTORYPLUGIN_H
