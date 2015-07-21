@@ -37,7 +37,7 @@ void DatabaseManager::initDatabase(DatabaseManager::DatabaseType dbType)
 	switch (dbType) {
 	case SQLITE:
 		//For SQLite, we store the database in the user's application data folder.
-		QString dbPath = KStandardDirs::locateLocal("appdata", "kopete_history3.db");
+        QString dbPath = KStandardDirs::locateLocal("appdata", "kopete_history.db");
 		db = QSqlDatabase::addDatabase("QSQLITE", "kopete-history");
 		db.setDatabaseName(dbPath);
 
