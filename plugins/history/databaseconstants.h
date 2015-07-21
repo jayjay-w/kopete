@@ -12,6 +12,9 @@ class DatabaseConstants : public QObject
     Q_OBJECT
 public:
     explicit DatabaseConstants(QObject *parent = 0);
+    /**
+     * These are the names of the various database columns
+     */
     static QString columnId();
     static QString columnTimeStamp();
     static QString columnMessage();
@@ -30,6 +33,16 @@ public:
     static QString columnState();
     static QString columnType();
     static QString columnIsGroup();
+
+    /**
+     * Query string for inserting a new message
+     */
+    static QString prepareForMessageInsert();
+
+    /**
+     * Query string for creating the messsages table
+     */
+    static QString createMessagesTable();
 signals:
 
 public slots:

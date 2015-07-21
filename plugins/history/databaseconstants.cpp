@@ -89,3 +89,34 @@ QString DatabaseConstants::columnIsGroup()
 {
     return "is_group";
 }
+
+QString DatabaseConstants::prepareForMessageInsert()
+{
+    return "INSERT INTO `messages` (`timestamp`, `message`, `account`, `protocol`, `direction`, `importance`, `contact`, `subject`, "
+           " `session`, `session_name`, `from`, `from_name`, `to`, `to_name`, `state`, `type`, `is_group`) "
+           " VALUES (:timestamp, :message, :account, :protocol, :direction, :importance, :contact, :subject, :session, :session_name, "
+           " :from, :from_name, :to, :to_name, :state, :type, :is_group)";
+}
+
+QString DatabaseConstants::createMessagesTable()
+{
+    return "CREATE TABLE IF NOT EXISTS \"messages\" ("
+           "\"" + columnId() + "\" Integer Primary Key Autoincrement Not Null, "
+           "\"" + columnTimeStamp() + "\" Integer, "
+           "\"" + columnMessage() + "\" Text, "
+           "\"" + columnProtocol() + "\" Text Not Null, "
+           "\"" + columnAccount() + "\" Text Not Null, "
+           "\"" + columnDirection() + "\" Integer Not Null, "
+           "\"" + columnImportance() + "\" Integer, "
+           "\"" + columnContact() + "\" Text, "
+           "\"" + columnSubject() + "\" Text, "
+           "\"" + columnSession() + "\" Text, "
+           "\"" + columnSessionName() + "\" Text, "
+           "\"" + columnFrom() + "\" Text, "
+           "\"" + columnFromName() + "\" Text, "
+           "\"" + columnTo() + "\" Text, "
+           "\"" + columnToName() + "\" Text, "
+           "\"" + columnState() + "\" Integer, "
+           "\"" + columnType() + "\" Integer, "
+           "\"" + columnIsGroup() + "\" Integer Default'0') ";
+}

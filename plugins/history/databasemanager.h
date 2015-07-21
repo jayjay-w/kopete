@@ -3,6 +3,7 @@
 
 #include <QObject>
 #include <QSqlDatabase>
+#include <QSqlQuery>
 
 namespace Kopete {
 	class Account;
@@ -73,6 +74,8 @@ private:
      * The current instance of the DatabaseManager class.
 	 */
 	static DatabaseManager *mInstance;
+
+    void bindQueryValue(QSqlQuery query, QString columnName, QString value);
 };
 
 #endif // DATABASEMANAGER_H
