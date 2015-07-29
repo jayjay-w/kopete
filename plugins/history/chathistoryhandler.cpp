@@ -5,6 +5,9 @@
 #include <kaboutdata.h>
 #include <kgenericfactory.h>
 #include "kapplication.h"
+#include <kaction.h>
+#include <kactioncollection.h>
+#include "historybrowser.h"
 
 ChatHistoryHandler *ChatHistoryHandler::mInstance = 0;
 
@@ -19,11 +22,23 @@ ChatHistoryHandler::ChatHistoryHandler(QObject *parent, const QStringList &)
 	//preferences
 	DatabaseManager::instance()->initDatabase(DatabaseManager::SQLITE);
 	connect (Kopete::ChatSessionManager::self(), SIGNAL(aboutToDisplay(Kopete::Message&)), this, SLOT(logMessage(Kopete::Message&)));
+
+	KAction *viewHistoryAction = new KAction(KIcon("view-history"), i18n("View &History"), this);
+	actionCollection()->addAction("viewHistoryAction", viewHistoryAction);
+	viewHistoryAction->setShortcut(KShortcut(Qt::CTRL + Qt::Key_H));
+	connect (viewHistoryAction, SIGNAL(triggered(bool)), this, SLOT(viewHistory()));
+	setXMLFile("historyui.rc");
 }
 
 ChatHistoryHandler::~ChatHistoryHandler()
 {
 
+}
+
+void ChatHistoryHandler::viewHistory()
+{
+	HistoryBrowser *historyWindow = new HistoryBrowser(0);
+	historyWindow->show();
 }
 
 ChatHistoryHandler *ChatHistoryHandler::instance()

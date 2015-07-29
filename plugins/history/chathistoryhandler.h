@@ -33,6 +33,11 @@ public slots:
 	 * will be extracted from here.
 	 */
 	void logMessage(Kopete::Message &message);
+
+	/**
+	 *Open the history viewer window
+	 */
+	void viewHistory();
 private:
 	static ChatHistoryHandler *mInstance;
 };

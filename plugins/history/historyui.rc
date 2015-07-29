@@ -1,0 +1,9 @@
+<!DOCTYPE kpartgui>
+<kpartgui name="kopete_history" version="1">
+<MenuBar>
+<Menu name="edit">
+<text>&amp;Edit</text>
+<Action name="viewHistoryAction" />
+</Menu>
+</MenuBar>
+</kpartgui>
