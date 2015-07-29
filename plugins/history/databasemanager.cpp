@@ -18,12 +18,12 @@ DatabaseManager* DatabaseManager::mInstance = 0;
 DatabaseManager::DatabaseManager(QObject *parent)
 	: QObject(parent)
 {
-    mInstance = this;
+	mInstance = this;
 }
 
 void DatabaseManager::bindQueryValue(QSqlQuery query, QString columnName, QString value)
 {
-    bindQueryValue(query, columnName, value);
+	bindQueryValue(query, columnName, value);
 }
 
 DatabaseManager::~DatabaseManager()
@@ -41,7 +41,7 @@ void DatabaseManager::initDatabase(DatabaseManager::DatabaseType dbType)
 	switch (dbType) {
 	case SQLITE:
 		//For SQLite, we store the database in the user's application data folder.
-        QString dbPath = KStandardDirs::locateLocal("appdata", "kopete_history.db");
+		QString dbPath = KStandardDirs::locateLocal("appdata", "kopete_history.db");
 		db = QSqlDatabase::addDatabase("QSQLITE", "kopete-history");
 		db.setDatabaseName(dbPath);
 
@@ -52,7 +52,7 @@ void DatabaseManager::initDatabase(DatabaseManager::DatabaseType dbType)
 		}
 
 		//If the messages table does not exist, lets create it.
-        db.exec(DatabaseConstants::createMessagesTable());
+		db.exec(DatabaseConstants::createMessagesTable());
 	}
 }
 
@@ -61,15 +61,15 @@ void DatabaseManager::insertMessage(Kopete::Message &message)
 	QSqlQuery query(db);
 
 	//Prepare an SQL query to insert the message to the db
-    query.prepare(DatabaseConstants::prepareForMessageInsert());
+	query.prepare(DatabaseConstants::prepareForMessageInsert());
 
 	//Add the values to the database fields.
-    bindQueryValue(query, DatabaseConstants::columnTimeStamp(), QString::number(message.timestamp().toTime_t()));
-    bindQueryValue(query, DatabaseConstants::columnMessage(), message.parsedBody());
-    bindQueryValue(query, DatabaseConstants::columnAccount(), message.manager()->account()->accountId());
-    bindQueryValue(query, DatabaseConstants::columnProtocol(), message.manager()->account()->protocol()->pluginId());
-    bindQueryValue(query, DatabaseConstants::columnDirection(), QString::number(message.direction()));
-    bindQueryValue(query, DatabaseConstants::columnImportance(), QString::number(message.importance()));
+	bindQueryValue(query, DatabaseConstants::columnTimeStamp(), QString::number(message.timestamp().toTime_t()));
+	bindQueryValue(query, DatabaseConstants::columnMessage(), message.parsedBody());
+	bindQueryValue(query, DatabaseConstants::columnAccount(), message.manager()->account()->accountId());
+	bindQueryValue(query, DatabaseConstants::columnProtocol(), message.manager()->account()->protocol()->pluginId());
+	bindQueryValue(query, DatabaseConstants::columnDirection(), QString::number(message.direction()));
+	bindQueryValue(query, DatabaseConstants::columnImportance(), QString::number(message.importance()));
 
 	QString contact;
 	if (message.direction() == Kopete::Message::Outbound) {
@@ -77,19 +77,19 @@ void DatabaseManager::insertMessage(Kopete::Message &message)
 	} else {
 		contact = message.from()->contactId();
 	}
-    bindQueryValue(query, DatabaseConstants::columnContact(), contact);
+	bindQueryValue(query, DatabaseConstants::columnContact(), contact);
 
-    bindQueryValue(query, DatabaseConstants::columnSubject(), message.subject());
-    bindQueryValue(query, DatabaseConstants::columnSession(), "");
-    bindQueryValue(query, DatabaseConstants::columnSessionName(), "");
-    bindQueryValue(query, DatabaseConstants::columnFrom(), message.from()->contactId());
-    bindQueryValue(query, DatabaseConstants::columnFromName(), message.from()->displayName());
+	bindQueryValue(query, DatabaseConstants::columnSubject(), message.subject());
+	bindQueryValue(query, DatabaseConstants::columnSession(), "");
+	bindQueryValue(query, DatabaseConstants::columnSessionName(), "");
+	bindQueryValue(query, DatabaseConstants::columnFrom(), message.from()->contactId());
+	bindQueryValue(query, DatabaseConstants::columnFromName(), message.from()->displayName());
 
 	//If we are dealing with only one recepient, we save this as a single user chat
 	if (message.to().count() == 1) {
-        bindQueryValue(query, DatabaseConstants::columnTo(), message.to().at(0)->contactId());
-        bindQueryValue(query, DatabaseConstants::columnToName(), message.to().at(0)->displayName());
-        bindQueryValue(query, DatabaseConstants::columnIsGroup(), "0");
+		bindQueryValue(query, DatabaseConstants::columnTo(), message.to().at(0)->contactId());
+		bindQueryValue(query, DatabaseConstants::columnToName(), message.to().at(0)->displayName());
+		bindQueryValue(query, DatabaseConstants::columnIsGroup(), "0");
 	} else {
 		//Otherwise we will create a string with the contact ids of the recepients, and another string to
 		//hold the contact names of the recepients. Both these strings are comma delimited.
@@ -100,12 +100,12 @@ void DatabaseManager::insertMessage(Kopete::Message &message)
 		}
 		to.chop(1);
 		to_name.chop(1);
-        bindQueryValue(query, DatabaseConstants::columnTo(), to);
-        bindQueryValue(query, DatabaseConstants::columnToName(), to_name);
-        bindQueryValue(query, DatabaseConstants::columnIsGroup(), "1");
+		bindQueryValue(query, DatabaseConstants::columnTo(), to);
+		bindQueryValue(query, DatabaseConstants::columnToName(), to_name);
+		bindQueryValue(query, DatabaseConstants::columnIsGroup(), "1");
 	}
-    bindQueryValue(query, DatabaseConstants::columnState(), QString::number(message.state()));
-    bindQueryValue(query, DatabaseConstants::columnType(), QString::number(message.type()));
+	bindQueryValue(query, DatabaseConstants::columnState(), QString::number(message.state()));
+	bindQueryValue(query, DatabaseConstants::columnType(), QString::number(message.type()));
 
 	//Save the query to the database.
 	query.exec();
@@ -114,8 +114,9 @@ void DatabaseManager::insertMessage(Kopete::Message &message)
 DatabaseManager *DatabaseManager::instance()
 {
 	//Check if there is an instance of this class. If there is none, a new one will be created.
-	if (!mInstance)
+	if (!mInstance) {
 		mInstance = new DatabaseManager(kapp);
+	}
 
 	return mInstance;
 }

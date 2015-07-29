@@ -48,8 +48,9 @@ QList<Kopete::Message> ChatHistoryHandler::search(Kopete::Account *account, Kope
 
 ChatHistoryHandler *ChatHistoryHandler::instance()
 {
-	if (!mInstance)
+	if (!mInstance) {
 		mInstance = new ChatHistoryHandler(0, QVariantList());
+	}
 
 	return mInstance;
 }
