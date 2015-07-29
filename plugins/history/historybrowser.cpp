@@ -25,5 +25,6 @@ void HistoryBrowser::loadAccounts()
 	foreach (Kopete::Account *account, Kopete::AccountManager::self()->accounts()) {
 		QTreeWidgetItem *accountItem = new QTreeWidgetItem(ui->trvContacts);
 		accountItem->setText(0, account->accountLabel());
+		accountItem->setIcon(0, account->accountIcon());
 	}
 }
