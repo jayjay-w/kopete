@@ -3,6 +3,7 @@
 
 #include <QVariantList>
 #include "kopeteplugin.h"
+#include "kopeteview.h"
 #include <QObject>
 
 namespace Kopete {
@@ -38,6 +39,12 @@ public slots:
 	 *Open the history viewer window
 	 */
 	void viewHistory();
+
+	/**
+	 * Monitor for a new chat window to be created, then we can load the contact's chat history to
+	 * the window for reference purposes.
+	 */
+	void chatViewCreated(KopeteView *v);
 private:
 	static ChatHistoryHandler *mInstance;
 };

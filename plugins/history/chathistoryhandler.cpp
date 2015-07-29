@@ -28,6 +28,9 @@ ChatHistoryHandler::ChatHistoryHandler(QObject *parent, const QStringList &)
 	viewHistoryAction->setShortcut(KShortcut(Qt::CTRL + Qt::Key_H));
 	connect (viewHistoryAction, SIGNAL(triggered(bool)), this, SLOT(viewHistory()));
 	setXMLFile("historyui.rc");
+
+	//When a new chat window is created, fire the chatViewCreated slot
+	connect (Kopete::ChatSessionManager::self(), SIGNAL(viewCreated(KopeteView*)), SLOT(chatViewCreated(KopeteView*)));
 }
 
 ChatHistoryHandler::~ChatHistoryHandler()
@@ -39,6 +42,20 @@ void ChatHistoryHandler::viewHistory()
 {
 	HistoryBrowser *historyWindow = new HistoryBrowser(0);
 	historyWindow->show();
+}
+
+void ChatHistoryHandler::chatViewCreated(KopeteView *v)
+{
+	Kopete::ChatSession *currentChatSession = v->msgManager();
+
+	if (!currentChatSession) {
+		return;
+	}
+
+	const Kopete::ContactPtrList &chatMembers = currentChatSession->members();
+	Kopete::Contact *contact = chatMembers.at(0);
+	QList<Kopete::Message> messages = DatabaseManager::instance()->getMessages(contact);
+	v->appendMessages(messages);
 }
 
 ChatHistoryHandler *ChatHistoryHandler::instance()

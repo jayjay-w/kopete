@@ -125,3 +125,8 @@ QString DatabaseConstants::sql_getContactList(QString accountId)
 {
 	return "SELECT DISTINCT contact, protocol FROM messages WHERE account = '" + accountId + "'";
 }
+
+QString DatabaseConstants::sql_getContactMessages(QString contactID)
+{
+	return "SELECT * FROM messages WHERE contact = '" + contactID + "'";
+}

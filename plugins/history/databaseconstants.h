@@ -44,12 +44,21 @@ public:
      */
 	static QString sql_createMessagesTable();
 
-	/**
-	     * Query string to retrieve the contacts in an account who have chat history.
-	     * @param accountId The account to search for.
-	     * @return
-	     */
-	static QString sql_getContactList(QString accountId = QString());
+     /** Query string to retrieve the contacts in an account who have chat history.
+     * @param accountId The account to search for.
+     * @return
+     */
+    static QString sql_getContactList(QString accountId = QString());
+
+    /**
+     * Query string to retrieve a list of messages belonging to a particulat contact
+     * @param contactID The id of the contact to look for.
+     * @return
+     */
+    static QString sql_getContactMessages(QString contactID = QString());
+signals:
+
+public slots:
 };
 
 #endif // DATABASECONSTANTS_H

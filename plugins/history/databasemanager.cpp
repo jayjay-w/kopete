@@ -6,12 +6,13 @@
 #include "kopetechatsession.h"
 #include "kopeteprotocol.h"
 #include "kopetechatsessionmanager.h"
+#include "kopetecontactlist.h"
 
 #include "databaseconstants.h"
 
 #include <KStandardDirs>
 #include <QVariant>
-
+#include <QSqlRecord>
 
 DatabaseManager* DatabaseManager::mInstance = 0;
 
@@ -119,4 +120,51 @@ DatabaseManager *DatabaseManager::instance()
 	}
 
 	return mInstance;
+}
+
+QList<Kopete::Contact *> DatabaseManager::getContactList(Kopete::Account *account)
+{
+	QList<Kopete::Contact *> contacts;
+
+	QSqlQuery query = db.exec(DatabaseConstants::sql_getContactList(account->accountId()));
+	while (query.next()) {
+		Kopete::Contact *contact;
+		if (Kopete::ContactList::self()->findContact(query.record().value(DatabaseConstants::columnProtocol()).toString()
+							     , account->accountId(), query.record().value(DatabaseConstants::columnContact()).toString()
+							     ) != 0L ) {
+			contact = Kopete::ContactList::self()->findContact(query.record().value(DatabaseConstants::columnProtocol()).toString()
+									   , account->accountId(), query.record().value(DatabaseConstants::columnContact()).toString()
+									   );
+			contacts.append(contact);
+		}
+	}
+
+	return contacts;
+}
+
+QList<Kopete::Message> DatabaseManager::getMessages(Kopete::Contact *contact)
+{
+	QList<Kopete::Message> messages;
+
+	QSqlQuery qu = db.exec(DatabaseConstants::sql_getContactMessages(contact->contactId()));
+
+	while (qu.next()) {
+		QSqlRecord rec = qu.record();
+		QString recepientList = rec.value("to").toString();
+		Kopete::Contact *from, *to;
+
+		from = Kopete::ContactList::self()->findContact(rec.value(DatabaseConstants::columnProtocol()).toString(), rec.value(DatabaseConstants::columnAccount()).toString(), rec.value(DatabaseConstants::columnFrom()).toString());
+
+		if (!recepientList.contains(",")) {
+			to = Kopete::ContactList::self()->findContact(rec.value(DatabaseConstants::columnProtocol()).toString(), rec.value(DatabaseConstants::columnAccount()).toString(), rec.value(DatabaseConstants::columnTo()).toString());
+		}
+
+		Kopete::Message msg(from, to);
+		msg.setDirection(rec.value(DatabaseConstants::columnDirection()).toString() == "0"?Kopete::Message::Inbound:Kopete::Message::Outbound);
+		msg.setHtmlBody(rec.value(DatabaseConstants::columnMessage()).toString());
+		msg.setTimestamp(QDateTime::fromTime_t(rec.value(DatabaseConstants::columnTimeStamp()).toInt()));
+		messages.append(msg);
+	}
+
+	return messages;
 }

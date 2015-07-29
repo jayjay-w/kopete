@@ -57,6 +57,20 @@ public:
 	 * @return the value of mInstance
 	 */
 	static DatabaseManager *instance();
+
+	/**
+	 * Get a list of accounts with chat history for the specified account
+	 * @param account The account to get contacts for.
+	 * @return
+	 */
+	QList<Kopete::Contact *> getContactList(Kopete::Account *account);
+
+	/**
+	 * Get a list of messages to/from a particular contact
+	 * @param contact
+	 * @return
+	 */
+	QList<Kopete::Message> getMessages(Kopete::Contact *contact);
 private:
 	/**
      * DatabaseManager class constructor. If there is no instance of the class in
