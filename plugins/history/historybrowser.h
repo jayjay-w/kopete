@@ -15,6 +15,11 @@ public:
 	explicit HistoryBrowser(QWidget *parent = 0);
 	~HistoryBrowser();
 
+private slots:
+	/**
+	 * Load the account list onto the accounts tree view.
+	 */
+	void loadAccounts();
 private:
 	Ui::HistoryBrowser *ui;
 };
