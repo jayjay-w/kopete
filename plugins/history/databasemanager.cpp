@@ -23,7 +23,7 @@ DatabaseManager::DatabaseManager(QObject *parent)
 
 void DatabaseManager::bindQueryValue(QSqlQuery query, QString columnName, QString value)
 {
-	bindQueryValue(query, columnName, value);
+	query.bindValue(columnName, value);
 }
 
 DatabaseManager::~DatabaseManager()
