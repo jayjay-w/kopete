@@ -52,7 +52,7 @@ void DatabaseManager::initDatabase(DatabaseManager::DatabaseType dbType)
 		}
 
 		//If the messages table does not exist, lets create it.
-		db.exec(DatabaseConstants::createMessagesTable());
+		db.exec(DatabaseConstants::sql_createMessagesTable());
 	}
 }
 
@@ -61,7 +61,7 @@ void DatabaseManager::insertMessage(Kopete::Message &message)
 	QSqlQuery query(db);
 
 	//Prepare an SQL query to insert the message to the db
-	query.prepare(DatabaseConstants::prepareForMessageInsert());
+	query.prepare(DatabaseConstants::sql_prepareForMessageInsert());
 
 	//Add the values to the database fields.
 	bindQueryValue(query, DatabaseConstants::columnTimeStamp(), QString::number(message.timestamp().toTime_t()));

@@ -90,7 +90,7 @@ QString DatabaseConstants::columnIsGroup()
 	return "is_group";
 }
 
-QString DatabaseConstants::prepareForMessageInsert()
+QString DatabaseConstants::sql_prepareForMessageInsert()
 {
 	return "INSERT INTO `messages` (`timestamp`, `message`, `account`, `protocol`, `direction`, `importance`, `contact`, `subject`, "
 	       " `session`, `session_name`, `from`, `from_name`, `to`, `to_name`, `state`, `type`, `is_group`) "
@@ -98,7 +98,7 @@ QString DatabaseConstants::prepareForMessageInsert()
 	       " :from, :from_name, :to, :to_name, :state, :type, :is_group)";
 }
 
-QString DatabaseConstants::createMessagesTable()
+QString DatabaseConstants::sql_createMessagesTable()
 {
 	return "CREATE TABLE IF NOT EXISTS \"messages\" ("
 			"\"" + columnId() + "\" Integer Primary Key Autoincrement Not Null, "
@@ -121,7 +121,7 @@ QString DatabaseConstants::createMessagesTable()
 					      "\"" + columnIsGroup() + "\" Integer Default'0') ";
 }
 
-QString DatabaseConstants::getContactList(QString accountId)
+QString DatabaseConstants::sql_getContactList(QString accountId)
 {
 	return "SELECT DISTINCT contact, protocol FROM messages WHERE account = '" + accountId + "'";
 }
