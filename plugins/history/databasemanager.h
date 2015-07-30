@@ -71,6 +71,7 @@ public:
 	 * @return
 	 */
 	QList<Kopete::Message> getMessages(Kopete::Contact *contact);
+	QList<Kopete::Message> getMessages(QString contactId);
 private:
 	/**
      * DatabaseManager class constructor. If there is no instance of the class in

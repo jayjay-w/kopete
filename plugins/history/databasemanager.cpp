@@ -144,9 +144,14 @@ QList<Kopete::Contact *> DatabaseManager::getContactList(Kopete::Account *accoun
 
 QList<Kopete::Message> DatabaseManager::getMessages(Kopete::Contact *contact)
 {
+	return getMessages(contact->contactId());
+}
+
+QList<Kopete::Message> DatabaseManager::getMessages(QString contactId)
+{
 	QList<Kopete::Message> messages;
 
-	QSqlQuery qu = db.exec(DatabaseConstants::sql_getContactMessages(contact->contactId()));
+	QSqlQuery qu = db.exec(DatabaseConstants::sql_getContactMessages(contactId));
 
 	while (qu.next()) {
 		QSqlRecord rec = qu.record();
