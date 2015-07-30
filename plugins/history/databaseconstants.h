@@ -43,6 +43,13 @@ public:
      * Query string for creating the messsages table
      */
 	static QString createMessagesTable();
+
+	/**
+	     * Query string to retrieve the contacts in an account who have chat history.
+	     * @param accountId The account to search for.
+	     * @return
+	     */
+	static QString getContactList(QString accountId = QString());
 };
 
 #endif // DATABASECONSTANTS_H
