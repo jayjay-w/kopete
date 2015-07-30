@@ -118,5 +118,10 @@ QString DatabaseConstants::createMessagesTable()
 			"\"" + columnToName() + "\" Text, "
 			"\"" + columnState() + "\" Integer, "
 			"\"" + columnType() + "\" Integer, "
-			"\"" + columnIsGroup() + "\" Integer Default'0') ";
+					      "\"" + columnIsGroup() + "\" Integer Default'0') ";
+}
+
+QString DatabaseConstants::getContactList(QString accountId)
+{
+	return "SELECT DISTINCT contact, protocol FROM messages WHERE account = '" + accountId + "'";
 }
