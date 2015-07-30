@@ -3,11 +3,32 @@
 )
 
 ########### next target ###############
-set(kopete_history_PART_SRCS chathistoryhandler.cpp databaseconstants.cpp databasemanager.cpp)
-kde4_add_plugin(kopete_history ${kopete_history_PART_SRCS} )
-target_link_libraries(kopete_history ${KDE4_KHTML_LIBS} kopete ${QT_QTSQL_LIBRARY})
+set(kopete_history_PART_SRCS
+databasemanager.cpp
+chathistoryhandler.cpp
+databaseconstants.cpp)
 
-install(TARGETS kopete_history  DESTINATION ${PLUGIN_INSTALL_DIR})
+kde4_add_kcfg_files(kcm_kopete_history_PART_SRCS historyconfig.kcfgc )
+
+ kde4_add_plugin(kopete_history ${kopete_history_PART_SRCS} )
+
+ target_link_libraries(kopete_history ${KDE4_KHTML_LIBS} kopete ${QT_QTSQL_LIBRARY})
+ install(TARGETS kopete_history  DESTINATION ${PLUGIN_INSTALL_DIR})
+
+ ########### next target ###############
+set(kcm_kopete_history_PART_SRCS
+historypreferences.cpp
+databasemanager.cpp
+chathistoryhandler.cpp
+databaseconstants.cpp)
+
+kde4_add_ui_files(kcm_kopete_history_PART_SRCS historypreferencesui.ui )
+kde4_add_kcfg_files(kcm_kopete_history_PART_SRCS historyconfig.kcfgc )
+kde4_add_plugin(kcm_kopete_history ${kcm_kopete_history_PART_SRCS})
+target_link_libraries(kcm_kopete_history ${KDE4_KHTML_LIBS} kopete ${QT_QTSQL_LIBRARY})
+install(TARGETS kcm_kopete_history  DESTINATION ${PLUGIN_INSTALL_DIR})
 
 ########### next target ###############
-install( FILES kopete_history.desktop DESTINATION ${SERVICES_INSTALL_DIR})
+install( FILES historyconfig.kcfg  DESTINATION ${KCFG_INSTALL_DIR})
+install( FILES kopete_history.desktop  DESTINATION ${SERVICES_INSTALL_DIR})
+install( FILES kopete_history_config.desktop  DESTINATION ${SERVICES_INSTALL_DIR}/kconfiguredialog)

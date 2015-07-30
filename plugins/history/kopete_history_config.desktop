@@ -1,0 +1,11 @@
+[Desktop Entry]
+Icon=view-history
+Type=Service
+X-KDE-ServiceTypes=KCModule
+
+X-KDE-Library=kcm_kopete_history
+X-KDE-FactoryName=kcm_kopete_history
+X-KDE-ParentApp=kopete_history
+X-KDE-ParentComponents=kopete_history
+
+Name=History
