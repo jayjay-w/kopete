@@ -37,19 +37,19 @@ public:
 	/**
      * Query string for inserting a new message
      */
-	static QString prepareForMessageInsert();
+	static QString sql_prepareForMessageInsert();
 
 	/**
      * Query string for creating the messsages table
      */
-	static QString createMessagesTable();
+	static QString sql_createMessagesTable();
 
 	/**
 	     * Query string to retrieve the contacts in an account who have chat history.
 	     * @param accountId The account to search for.
 	     * @return
 	     */
-	static QString getContactList(QString accountId = QString());
+	static QString sql_getContactList(QString accountId = QString());
 };
 
 #endif // DATABASECONSTANTS_H
