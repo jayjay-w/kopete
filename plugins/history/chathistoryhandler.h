@@ -5,6 +5,10 @@
 #include "kopeteplugin.h"
 #include <QObject>
 
+namespace Kopete {
+	class Message;
+}
+
 /**
  * The ChatHistoryHandler class is used to handle all history connected activities, and
  * then call the respective class (logger, searcher etc).
@@ -21,6 +25,14 @@ public:
 
 	~ChatHistoryHandler();
 	static ChatHistoryHandler *instance();
+
+public slots:
+	/**
+     * Insert a new chat message to the database.
+	 * @param message The message to be logged. The message details to be stored in the database
+	 * will be extracted from here.
+	 */
+	void logMessage(Kopete::Message &message);
 private:
 	static ChatHistoryHandler *mInstance;
 };
