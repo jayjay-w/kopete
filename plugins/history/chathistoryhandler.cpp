@@ -8,10 +8,10 @@
 
 ChatHistoryHandler *ChatHistoryHandler::mInstance = 0;
 
-K_PLUGIN_FACTORY(HistoryPluginFactory, registerPlugin<ChatHistoryHandler>();)
-K_EXPORT_PLUGIN(HistoryPluginFactory( "kopete_history" ))
-
-ChatHistoryHandler::ChatHistoryHandler(QObject *parent, const QVariantList &)
+typedef KGenericFactory<ChatHistoryHandler> HistoryPluginFactory;
+static const KAboutData aboutData("kopete_history", 0, ki18n("History"), "0.1", ki18n("Kopete history logging application."));
+K_EXPORT_COMPONENT_FACTORY(kopete_history, HistoryPluginFactory(&aboutData))
+ChatHistoryHandler::ChatHistoryHandler(QObject *parent, const QStringList &)
 	: Kopete::Plugin(HistoryPluginFactory::componentData(), parent)
 {
 	//Initialize the database. Currently this is only targeting SQLite, but once we
@@ -29,7 +29,7 @@ ChatHistoryHandler::~ChatHistoryHandler()
 ChatHistoryHandler *ChatHistoryHandler::instance()
 {
 	if (!mInstance) {
-		mInstance = new ChatHistoryHandler(0, QVariantList());
+		mInstance = new ChatHistoryHandler(0, QStringList());
 	}
 
 	return mInstance;

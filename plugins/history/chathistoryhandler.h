@@ -21,7 +21,7 @@ public:
      * Constructs a new ChatHistoryHandler class instance. There should only be one
       * instance for every instance of Kopete running.
       */
-	explicit ChatHistoryHandler(QObject *parent, const QVariantList &);
+	explicit ChatHistoryHandler(QObject *parent, const QStringList &);
 
 	~ChatHistoryHandler();
 	static ChatHistoryHandler *instance();
