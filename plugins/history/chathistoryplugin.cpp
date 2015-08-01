@@ -1,4 +1,4 @@
-#include "chathistoryhandler.h"
+#include "chathistoryplugin.h"
 #include "databasemanager.h"
 #include "kopetemessage.h"
 #include "kopetechatsessionmanager.h"
@@ -6,13 +6,13 @@
 #include <kgenericfactory.h>
 #include "kapplication.h"
 
-ChatHistoryHandler *ChatHistoryHandler::mInstance = 0;
+ChatHistoryPlugin *ChatHistoryPlugin::mInstance = 0;
 
-K_PLUGIN_FACTORY(HistoryPluginFactory, registerPlugin<ChatHistoryHandler>();)
-K_EXPORT_PLUGIN(HistoryPluginFactory( "kopete_history" ))
+K_PLUGIN_FACTORY(ChatHistoryPluginFactory, registerPlugin<ChatHistoryPlugin>();)
+K_EXPORT_PLUGIN(ChatHistoryPluginFactory( "kopete_history" ))
 
-ChatHistoryHandler::ChatHistoryHandler(QObject *parent, const QVariantList &)
-	: Kopete::Plugin(HistoryPluginFactory::componentData(), parent)
+ChatHistoryPlugin::ChatHistoryPlugin(QObject *parent, const QVariantList &)
+	: Kopete::Plugin(ChatHistoryPluginFactory::componentData(), parent)
 {
 	//Initialize the database.
 	//TODO: Implement other DB Systems (MySQL, PostgreSQL etc)
@@ -20,21 +20,21 @@ ChatHistoryHandler::ChatHistoryHandler(QObject *parent, const QVariantList &)
 	connect (Kopete::ChatSessionManager::self(), SIGNAL(aboutToDisplay(Kopete::Message&)), this, SLOT(logMessage(Kopete::Message&)));
 }
 
-ChatHistoryHandler::~ChatHistoryHandler()
+ChatHistoryPlugin::~ChatHistoryPlugin()
 {
 
 }
 
-ChatHistoryHandler *ChatHistoryHandler::instance()
+ChatHistoryPlugin *ChatHistoryPlugin::instance()
 {
 	if (!mInstance) {
-		mInstance = new ChatHistoryHandler(0, QVariantList());
+		mInstance = new ChatHistoryPlugin(0, QVariantList());
 	}
 
 	return mInstance;
 }
 
-void ChatHistoryHandler::logMessage(Kopete::Message &message)
+void ChatHistoryPlugin::logMessage(Kopete::Message &message)
 {
 	DatabaseManager::instance()->insertMessage(message);
 }

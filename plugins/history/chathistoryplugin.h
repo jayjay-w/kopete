@@ -1,5 +1,5 @@
-#ifndef CHATHISTORYHANDLER_H
-#define CHATHISTORYHANDLER_H
+#ifndef CHATHISTORYPLUGIN_H
+#define CHATHISTORYPLUGIN_H
 
 #include <QVariantList>
 #include "kopeteplugin.h"
@@ -10,21 +10,21 @@ class Message;
 }
 
 /**
- * The ChatHistoryHandler class is used to handle all history connected activities, and
+ * The ChatHistoryPlugin class is used to handle all history connected activities, and
  * then call the respective class (logger, searcher etc).
  */
-class ChatHistoryHandler : public Kopete::Plugin
+class ChatHistoryPlugin : public Kopete::Plugin
 {
 	Q_OBJECT
 public:
 	/**
-	 * Constructs a new ChatHistoryHandler class instance. There should only be one
+         * Constructs a new ChatHistoryPlugin class instance. There should only be one
 	 * instance for every instance of Kopete running.
 	 */
-	explicit ChatHistoryHandler(QObject *parent, const QVariantList &);
+	explicit ChatHistoryPlugin(QObject *parent, const QVariantList &);
 
-	~ChatHistoryHandler();
-	static ChatHistoryHandler *instance();
+	~ChatHistoryPlugin();
+	static ChatHistoryPlugin *instance();
 
 public slots:
 	/**
@@ -34,7 +34,7 @@ public slots:
 	 */
 	void logMessage(Kopete::Message &message);
 private:
-	static ChatHistoryHandler *mInstance;
+	static ChatHistoryPlugin *mInstance;
 };
 
-#endif // CHATHISTORYHANDLER_H
+#endif // CHATHISTORYPLUGIN_H
