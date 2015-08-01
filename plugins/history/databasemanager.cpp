@@ -34,8 +34,9 @@ DatabaseManager::~DatabaseManager()
 void DatabaseManager::initDatabase(DatabaseManager::DatabaseType dbType)
 {
 	//Close the database, in case it is open.
-	if (db.isOpen())
+	if (db.isOpen()) {
 		db.close();
+	}
 
 	//Create the database tables based on the selected database system
 	switch (dbType) {

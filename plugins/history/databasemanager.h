@@ -21,21 +21,21 @@ class DatabaseManager : public QObject
 	Q_OBJECT
 public:
 	/**
-     * List of the different database systems we use. SQLite is the default,
-	 * and the user is able to select other database systems from the plugin
-	 * preferences.
-	 */
+	* List of the different database systems we use. SQLite is the default,
+	* and the user is able to select other database systems from the plugin
+	* preferences.
+	*/
 	enum DatabaseType {
 		SQLITE = 0
 	};
 
 	/**
-	  * Class destructor.
-	  * */
+	* Class destructor.
+	* */
 	~DatabaseManager();
 
 	/**
-     * Initializes the database based on the selected database format.
+	 * Initializes the database based on the selected database format.
 	 * This creates the database if it does not exist. For SQLite, this entails
 	 * creating the kopete_history3.db file in the application data folder. For other
 	 * database systems, the database is created on the server, and then all of the
@@ -45,7 +45,7 @@ public:
 	void initDatabase(DatabaseType dbType);
 
 	/**
-     * Inserts a chat message into the database. All chat related details such as
+	 * Inserts a chat message into the database. All chat related details such as
 	 * protocol, subject, recepients etc are also logged into the database.
 	 * @param message a Kopete::Message object containing the message to be logged into the
 	 * database.
@@ -53,25 +53,24 @@ public:
 	void insertMessage(Kopete::Message &message);
 
 	/**
-     * The current instance of the DatabaseManager class.
+	 * The current instance of the DatabaseManager class.
 	 * @return the value of mInstance
 	 */
 	static DatabaseManager *instance();
 private:
 	/**
-     * DatabaseManager class constructor. If there is no instance of the class in
 	 * existance, a new one will be created.
 	 * @param parent The QObject parent of this class
 	 */
 	explicit DatabaseManager(QObject *parent = 0);
 
 	/**
-     * QSqlDatabase containing the database used to log the chats.
+	 * QSqlDatabase containing the database used to log the chats.
 	 */
 	QSqlDatabase db;
 
 	/**
-     * The current instance of the DatabaseManager class.
+	 * The current instance of the DatabaseManager class.
 	 */
 	static DatabaseManager *mInstance;
 

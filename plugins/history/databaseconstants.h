@@ -13,8 +13,8 @@ class DatabaseConstants : public QObject
 public:
 	explicit DatabaseConstants(QObject *parent = 0);
 	/**
-     * These are the names of the various database columns
-     */
+	* These are the names of the various database columns
+	*/
 	static QString columnId();
 	static QString columnTimeStamp();
 	static QString columnMessage();
@@ -35,20 +35,20 @@ public:
 	static QString columnIsGroup();
 
 	/**
-     * Query string for inserting a new message
-     */
+	 * Query string for inserting a new message
+	 */
 	static QString sql_prepareForMessageInsert();
 
 	/**
-     * Query string for creating the messsages table
-     */
+	 * Query string for creating the messsages table
+	 */
 	static QString sql_createMessagesTable();
 
 	/**
-	     * Query string to retrieve the contacts in an account who have chat history.
-	     * @param accountId The account to search for.
-	     * @return
-	     */
+	 * Query string to retrieve the contacts in an account who have chat history.
+	 * @param accountId The account to search for.
+	 * @return
+	 */
 	static QString sql_getContactList(QString accountId = QString());
 };
 
