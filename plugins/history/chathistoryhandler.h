@@ -1,13 +1,13 @@
 #ifndef CHATHISTORYHANDLER_H
 #define CHATHISTORYHANDLER_H
 
-#include <QVariantList>
+#include <QStringList>
 #include "kopeteplugin.h"
 #include "kopeteview.h"
 #include <QObject>
 
 namespace Kopete {
-	class Message;
+class Message;
 }
 
 /**
@@ -19,9 +19,9 @@ class ChatHistoryHandler : public Kopete::Plugin
 	Q_OBJECT
 public:
 	/**
-     * Constructs a new ChatHistoryHandler class instance. There should only be one
-      * instance for every instance of Kopete running.
-      */
+	 * Constructs a new ChatHistoryHandler class instance. There should only be one
+	 * instance for every instance of Kopete running.
+	 */
 	explicit ChatHistoryHandler(QObject *parent, const QStringList &);
 
 	~ChatHistoryHandler();
@@ -29,7 +29,7 @@ public:
 
 public slots:
 	/**
-     * Insert a new chat message to the database.
+	 * Insert a new chat message to the database.
 	 * @param message The message to be logged. The message details to be stored in the database
 	 * will be extracted from here.
 	 */
