@@ -14,9 +14,8 @@ K_EXPORT_PLUGIN(HistoryPluginFactory( "kopete_history" ))
 ChatHistoryHandler::ChatHistoryHandler(QObject *parent, const QVariantList &)
 	: Kopete::Plugin(HistoryPluginFactory::componentData(), parent)
 {
-	//Initialize the database. Currently this is only targeting SQLite, but once we
-	//add more database systems, we will pick the database system defined in the
-	//preferences
+	//Initialize the database.
+	//TODO: Implement other DB Systems (MySQL, PostgreSQL etc)
 	DatabaseManager::instance()->initDatabase(DatabaseManager::SQLITE);
 	connect (Kopete::ChatSessionManager::self(), SIGNAL(aboutToDisplay(Kopete::Message&)), this, SLOT(logMessage(Kopete::Message&)));
 }
