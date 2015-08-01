@@ -92,10 +92,10 @@ QString DatabaseConstants::columnIsGroup()
 
 QString DatabaseConstants::sql_prepareForMessageInsert()
 {
-	return "INSERT INTO `messages` (`timestamp`, `message`, `account`, `protocol`, `direction`, `importance`, `contact`, `subject`, "
-	       " `session`, `session_name`, `from`, `from_name`, `to`, `to_name`, `state`, `type`, `is_group`) "
-	       " VALUES (:timestamp, :message, :account, :protocol, :direction, :importance, :contact, :subject, :session, :session_name, "
-	       " :from, :from_name, :to, :to_name, :state, :type, :is_group)";
+	return "INSERT INTO `messages` (`" + columnTimeStamp() + "`, `" + columnMessage() + "`, `" + columnAccount() + "`, `" + columnProtocol() + "`, `" + columnDirection() + "`, `" + columnImportance() + "`, `" + columnContact() + "`, `" + columnSubject() + "`, "
+		" `" + columnSession() + "`, `" + columnSessionName() + "`, `" + columnFrom() + "`, `" + columnFromName() + "`, `" + columnTo() + "`, `" + columnToName() + "`, `" + columnState() + "`, `" + columnType() + "`, `" + columnIsGroup() + "`) "
+		" VALUES (:" + columnTimeStamp() + ", :" + columnMessage() + ", :" + columnAccount() + ", :" + columnProtocol() + ", :" + columnDirection() + ", :" + columnImportance() + ", :" + columnContact() + ", :" + columnSubject() + ", :" + columnSession() + ", :" + columnSessionName() + ", "
+		" :" + columnFrom() + ", :" + columnFromName() + ", :" + columnTo() + ", :" + columnToName() + ", :" + columnState() + ", :" + columnType() + ", :" + columnIsGroup() + ")";
 }
 
 QString DatabaseConstants::sql_createMessagesTable()
