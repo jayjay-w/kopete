@@ -6,8 +6,11 @@
 set(kopete_history_PART_SRCS
 databasemanager.cpp
 historybrowser.cpp
-chathistoryhandler.cpp
+chathistoryplugin.cpp
 databaseconstants.cpp)
+
+kde4_add_plugin(kopete_history ${kopete_history_PART_SRCS} )
+target_link_libraries(kopete_history ${KDE4_KHTML_LIBS} kopete ${QT_QTSQL_LIBRARY})
 
 kde4_add_ui_files(kopete_history_PART_SRCS historybrowser.ui)
 kde4_add_kcfg_files(kcm_kopete_history_PART_SRCS historyconfig.kcfgc )
@@ -22,7 +25,7 @@ set(kcm_kopete_history_PART_SRCS
 historypreferences.cpp
 historybrowser.cpp
 databasemanager.cpp
-chathistoryhandler.cpp
+chathistoryplugin.cpp
 databaseconstants.cpp)
 
 kde4_add_ui_files(kcm_kopete_history_PART_SRCS historypreferencesui.ui historybrowser.ui)

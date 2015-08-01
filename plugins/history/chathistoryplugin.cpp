@@ -1,4 +1,4 @@
-#include "chathistoryhandler.h"
+#include "chathistoryplugin.h"
 #include "databasemanager.h"
 #include "kopetemessage.h"
 #include "kopetechatsessionmanager.h"
@@ -9,12 +9,12 @@
 #include <kactioncollection.h>
 #include "historybrowser.h"
 
-ChatHistoryHandler *ChatHistoryHandler::mInstance = 0;
+ChatHistoryPlugin *ChatHistoryPlugin::mInstance = 0;
 
-typedef KGenericFactory<ChatHistoryHandler> HistoryPluginFactory;
+typedef KGenericFactory<ChatHistoryPlugin> HistoryPluginFactory;
 static const KAboutData aboutData("kopete_history", 0, ki18n("History"), "0.1", ki18n("Kopete history logging application."));
 K_EXPORT_COMPONENT_FACTORY(kopete_history, HistoryPluginFactory(&aboutData))
-ChatHistoryHandler::ChatHistoryHandler(QObject *parent, const QStringList &)
+ChatHistoryPlugin::ChatHistoryPlugin(QObject *parent, const QStringList &)
 	: Kopete::Plugin(HistoryPluginFactory::componentData(), parent)
 {
 	//Initialize the database.
@@ -32,18 +32,18 @@ ChatHistoryHandler::ChatHistoryHandler(QObject *parent, const QStringList &)
 	connect (Kopete::ChatSessionManager::self(), SIGNAL(viewCreated(KopeteView*)), SLOT(chatViewCreated(KopeteView*)));
 }
 
-ChatHistoryHandler::~ChatHistoryHandler()
+ChatHistoryPlugin::~ChatHistoryPlugin()
 {
 
 }
 
-void ChatHistoryHandler::viewHistory()
+void ChatHistoryPlugin::viewHistory()
 {
 	HistoryBrowser *historyWindow = new HistoryBrowser(0);
 	historyWindow->show();
 }
 
-void ChatHistoryHandler::chatViewCreated(KopeteView *v)
+void ChatHistoryPlugin::chatViewCreated(KopeteView *v)
 {
 	Kopete::ChatSession *currentChatSession = v->msgManager();
 
@@ -57,16 +57,16 @@ void ChatHistoryHandler::chatViewCreated(KopeteView *v)
 	v->appendMessages(messages);
 }
 
-ChatHistoryHandler *ChatHistoryHandler::instance()
+ChatHistoryPlugin *ChatHistoryPlugin::instance()
 {
 	if (!mInstance) {
-		mInstance = new ChatHistoryHandler(0, QStringList());
+		mInstance = new ChatHistoryPlugin(0, QStringList());
 	}
 
 	return mInstance;
 }
 
-void ChatHistoryHandler::logMessage(Kopete::Message &message)
+void ChatHistoryPlugin::logMessage(Kopete::Message &message)
 {
 	DatabaseManager::instance()->insertMessage(message);
 }
