@@ -92,10 +92,23 @@ QString DatabaseConstants::columnIsGroup()
 
 QString DatabaseConstants::sql_prepareForMessageInsert()
 {
-	return "INSERT INTO `messages` (`" + columnTimeStamp() + "`, `" + columnMessage() + "`, `" + columnAccount() + "`, `" + columnProtocol() + "`, `" + columnDirection() + "`, `" + columnImportance() + "`, `" + columnContact() + "`, `" + columnSubject() + "`, "
-		" `" + columnSession() + "`, `" + columnSessionName() + "`, `" + columnFrom() + "`, `" + columnFromName() + "`, `" + columnTo() + "`, `" + columnToName() + "`, `" + columnState() + "`, `" + columnType() + "`, `" + columnIsGroup() + "`) "
-		" VALUES (:" + columnTimeStamp() + ", :" + columnMessage() + ", :" + columnAccount() + ", :" + columnProtocol() + ", :" + columnDirection() + ", :" + columnImportance() + ", :" + columnContact() + ", :" + columnSubject() + ", :" + columnSession() + ", :" + columnSessionName() + ", "
-		" :" + columnFrom() + ", :" + columnFromName() + ", :" + columnTo() + ", :" + columnToName() + ", :" + columnState() + ", :" + columnType() + ", :" + columnIsGroup() + ")";
+	return "INSERT INTO `messages` (`" + columnTimeStamp() + "`, `" + columnMessage()
+			+ "`, `" + columnAccount() + "`, `" + columnProtocol() + "`, `"
+			+ columnDirection() + "`, `" + columnImportance() + "`, `"
+			+ columnContact() + "`, `" + columnSubject() + "`, "
+		" `" + columnSession() + "`, `" + columnSessionName() + "`, `"
+			+ columnFrom() + "`, `" + columnFromName() + "`, `" + columnTo()
+			+ "`, `" + columnToName() + "`, `" + columnState() + "`, `"
+			+ columnType() + "`, `" + columnIsGroup() + "`) "
+		" VALUES (:" + columnTimeStamp() + ", :" + columnMessage() + ", :"
+			+ columnAccount() + ", :" + columnProtocol() + ", :"
+			+ columnDirection() + ", :" + columnImportance() + ", :"
+			+ columnContact() + ", :" + columnSubject() + ", :"
+			+ columnSession() + ", :" + columnSessionName() + ", "
+		" :" + columnFrom() + ", :" + columnFromName() + ", :"
+			+ columnTo() + ", :" + columnToName() + ", :"
+			+ columnState() + ", :" + columnType() + ", :"
+			+ columnIsGroup() + ")";
 }
 
 QString DatabaseConstants::sql_createMessagesTable()

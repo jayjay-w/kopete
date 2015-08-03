@@ -12,7 +12,8 @@
 ChatHistoryPlugin *ChatHistoryPlugin::mInstance = 0;
 
 typedef KGenericFactory<ChatHistoryPlugin> HistoryPluginFactory;
-static const KAboutData aboutData("kopete_history", 0, ki18n("History"), "0.1", ki18n("Kopete history logging application."));
+static const KAboutData aboutData("kopete_history", 0, ki18n("History"), "0.1",
+				  ki18n("Kopete history logging application."));
 K_EXPORT_COMPONENT_FACTORY(kopete_history, HistoryPluginFactory(&aboutData))
 ChatHistoryPlugin::ChatHistoryPlugin(QObject *parent, const QStringList &)
 	: Kopete::Plugin(HistoryPluginFactory::componentData(), parent)
@@ -20,16 +21,18 @@ ChatHistoryPlugin::ChatHistoryPlugin(QObject *parent, const QStringList &)
 	//Initialize the database.
 	//TODO: Implement other DB Systems (MySQL, PostgreSQL etc)
 	DatabaseManager::instance()->initDatabase(DatabaseManager::SQLITE);
-	connect (Kopete::ChatSessionManager::self(), SIGNAL(aboutToDisplay(Kopete::Message&)), this, SLOT(logMessage(Kopete::Message&)));
-
-	KAction *viewHistoryAction = new KAction(KIcon("view-history"), i18n("View &History"), this);
+	KAction *viewHistoryAction = new KAction(KIcon("view-history"),
+						 i18n("View &History"), this);
 	actionCollection()->addAction("viewHistoryAction", viewHistoryAction);
 	viewHistoryAction->setShortcut(KShortcut(Qt::CTRL + Qt::Key_H));
 	connect (viewHistoryAction, SIGNAL(triggered(bool)), this, SLOT(viewHistory()));
 	setXMLFile("historyui.rc");
 
 	//When a new chat window is created, fire the chatViewCreated slot
-	connect (Kopete::ChatSessionManager::self(), SIGNAL(viewCreated(KopeteView*)), SLOT(chatViewCreated(KopeteView*)));
+	connect (Kopete::ChatSessionManager::self(), SIGNAL(viewCreated(KopeteView*)),
+		 SLOT(chatViewCreated(KopeteView*)));
+	connect (Kopete::ChatSessionManager::self(), SIGNAL(aboutToDisplay(Kopete::Message&)),
+		 this, SLOT(logMessage(Kopete::Message&)));
 }
 
 ChatHistoryPlugin::~ChatHistoryPlugin()

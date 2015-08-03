@@ -29,8 +29,8 @@ public:
 public slots:
 	/**
 	 * Insert a new chat message to the database.
-	 * @param message The message to be logged. The message details to be stored in the database
-	 * will be extracted from here.
+	 * @param message The message to be logged. The message details to be stored
+	 * in the database will be extracted from here.
 	 */
 	void logMessage(Kopete::Message &message);
 
