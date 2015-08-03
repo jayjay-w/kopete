@@ -18,7 +18,7 @@ class ChatHistoryPlugin : public Kopete::Plugin
 	Q_OBJECT
 public:
 	/**
-         * Constructs a new ChatHistoryPlugin class instance. There should only be one
+	 * Constructs a new ChatHistoryPlugin class instance. There should only be one
 	 * instance for every instance of Kopete running.
 	 */
 	explicit ChatHistoryPlugin(QObject *parent, const QVariantList &);
@@ -29,8 +29,8 @@ public:
 public slots:
 	/**
 	 * Insert a new chat message to the database.
-	 * @param message The message to be logged. The message details to be stored in the database
-	 * will be extracted from here.
+	 * @param message The message to be logged. The message details to be stored
+	 * in the database will be extracted from here.
 	 */
 	void logMessage(Kopete::Message &message);
 private:

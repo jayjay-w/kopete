@@ -17,7 +17,8 @@ ChatHistoryPlugin::ChatHistoryPlugin(QObject *parent, const QVariantList &)
 	//Initialize the database.
 	//TODO: Implement other DB Systems (MySQL, PostgreSQL etc)
 	DatabaseManager::instance()->initDatabase(DatabaseManager::SQLITE);
-	connect (Kopete::ChatSessionManager::self(), SIGNAL(aboutToDisplay(Kopete::Message&)), this, SLOT(logMessage(Kopete::Message&)));
+	connect (Kopete::ChatSessionManager::self(), SIGNAL(aboutToDisplay(Kopete::Message&)),
+		 this, SLOT(logMessage(Kopete::Message&)));
 }
 
 ChatHistoryPlugin::~ChatHistoryPlugin()
