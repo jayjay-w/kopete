@@ -52,6 +52,7 @@ void DatabaseManager::initDatabase(DatabaseManager::DatabaseType dbType)
 		//Abort in case the database creation/opening fails.
 		if (!db.open()) {
 			//Database not open
+			emit error("Database not open");
 			return;
 		}
 
@@ -62,6 +63,10 @@ void DatabaseManager::initDatabase(DatabaseManager::DatabaseType dbType)
 
 void DatabaseManager::insertMessage(Kopete::Message &message)
 {
+	if (!db.isOpen()) {
+		emit error("Database not open.");
+	}
+
 	QSqlQuery query(db);
 
 	//Prepare an SQL query to insert the message to the db
