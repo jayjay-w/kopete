@@ -75,6 +75,9 @@ private:
 	static DatabaseManager *mInstance;
 
 	void bindQueryValue(QSqlQuery query, QString columnName, QString value);
+
+signals:
+	void error(QString errorMessage);
 };
 
 #endif // DATABASEMANAGER_H
