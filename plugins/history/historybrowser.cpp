@@ -21,7 +21,6 @@
 
 #include <QTreeWidgetItem>
 #include <QSplitter>
-#include <QMessageBox>
 
 HistoryBrowser::HistoryBrowser(QWidget *parent) :
 	QWidget(parent),
@@ -133,21 +132,14 @@ void HistoryBrowser::on_trvContacts_itemClicked(QTreeWidgetItem *item, int)
 			accountLabel = item->parent()->text(0);
 
 			QString body = msg.parsedBody();
-			QMessageBox::information(this, "Debug", "6c");
-			// If there is a search, then we highlight the keywords
-			//			if (!searchForEscaped.isEmpty() && body.contains(searchForEscaped, Qt::CaseInsensitive))
-			//				body = highlight( body, searchForEscaped );
 
 			QString name;
-			if ( msg.from()->metaContact() && msg.from()->metaContact() != Kopete::ContactList::self()->myself() )
-			{
-				name = msg.from()->metaContact()->displayName();
-			}
-			else
-			{
+			if (msg.direction() == Kopete::Message::Inbound) {
 				name = msg.from()->displayName();
+			} else {
+				name = Kopete::ContactList::self()->myself()->displayName();
 			}
-			QMessageBox::information(this, "Debug", "7");
+
 			QString fontColor;
 			if (msg.direction() == Kopete::Message::Outbound)
 			{
@@ -158,7 +150,6 @@ void HistoryBrowser::on_trvContacts_itemClicked(QTreeWidgetItem *item, int)
 				fontColor = Kopete::AppearanceSettings::self()->chatTextColor().light(200).name();
 			}
 
-			QMessageBox::information(this, "Debug", "8");
 			QString messageTemplate = "<b>%1&nbsp;<font color=\"%2\">%3</font></b>&nbsp;%4";
 			resultHTML += messageTemplate.arg( msg.timestamp().time().toString(),
 							   fontColor, name, body );
@@ -169,7 +160,5 @@ void HistoryBrowser::on_trvContacts_itemClicked(QTreeWidgetItem *item, int)
 
 			mHtmlPart->htmlDocument().body().appendChild(newNode);
 		}
-		QMessageBox::information(this, "Debug", "9");
 	}
-	QMessageBox::information(this, "Debug", "10");
 }
