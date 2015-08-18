@@ -8,6 +8,7 @@
 #include "kopetechatsessionmanager.h"
 
 #include "databaseconstants.h"
+#include "querybuilder.h"
 
 #include <KStandardDirs>
 #include <QVariant>

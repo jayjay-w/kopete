@@ -4,7 +4,7 @@ include_directories(
 
 ########### next target ###############
 
-set(kopete_history_PART_SRCS databasemanager.cpp chathistoryhandler.cpp databaseconstants.cpp)
+set(kopete_history_PART_SRCS databasemanager.cpp chathistoryhandler.cpp querybuilder.cpp databaseconstants.cpp)
 kde4_add_plugin(kopete_history ${kopete_history_PART_SRCS} )
 
 target_link_libraries(kopete_history ${KDE4_KHTML_LIBS} kopete ${QT_QTSQL_LIBRARY})
